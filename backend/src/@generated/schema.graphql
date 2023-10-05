@@ -1,0 +1,59 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserType {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  fullname: String!
+  username: String!
+  role: Float!
+  email: String!
+  avatar: String!
+  phoneNumber: String!
+  desc: String!
+  address: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PaginationUserType {
+  data: [UserType!]!
+  page: Float!
+  limit: Float!
+  totalPage: Float!
+}
+
+type Query {
+  getUsers(query: OptionsQueryType!): PaginationUserType!
+}
+
+input OptionsQueryType {
+  page: Float! = 1
+  limit: Float! = 10
+  fullname: String! = ""
+  role: Float! = 0
+  email: String! = ""
+  phoneNumber: String! = ""
+  address: String! = ""
+}
+
+type Mutation {
+  createUser(body: CreateUserType!): UserType!
+}
+
+input CreateUserType {
+  fullname: String!
+  username: String!
+  role: Float! = 2
+  email: String!
+  dayOfBirth: String!
+  avatar: String! = ""
+  phoneNumber: String!
+  desc: String! = ""
+  address: String! = ""
+}
