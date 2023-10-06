@@ -6,6 +6,8 @@ import { CreateUserType } from './types/create-user.type';
 import { v4 as uuid } from 'uuid';
 import { Pagination, QueryOptions } from 'ts/types';
 import { checkValueEmpty } from 'utils/common';
+import * as bcrypt from 'bcrypt';
+import { UpdateUserType } from './types/update-user.type';
 
 @Injectable()
 export class UserService {
@@ -15,10 +17,10 @@ export class UserService {
   ) {}
 
   async getUsers(
-    query: QueryOptions<Omit<User, 'id' | 'desc' | 'avatar' | 'username'>>,
-  ): Promise<Pagination<User>> {
-    console.log(query);
-    console.log(checkValueEmpty(query.fullname));
+    query: QueryOptions<
+      Omit<User, 'id' | 'desc' | 'avatar' | 'username' | 'password'>
+    >,
+  ): Promise<Pagination<Omit<User, 'password'>>> {
     const { fullname, email, phoneNumber, page, limit, address, role } = query;
     const q = { fullname, email, phoneNumber, address, role };
     const take = limit || 10;
@@ -53,13 +55,53 @@ export class UserService {
     };
   }
 
+  async getUserById(id: string): Promise<User> {
+    return this.userRepository.findOne({ id });
+  }
+
+  async getUserByUserName(username: string): Promise<User> {
+    return this.userRepository.findOne({ username });
+  }
+
   async createUser(body: CreateUserType): Promise<User> {
     const user = this.userRepository.create({
       id: uuid(),
+      password: bcrypt.hash(body.password, 10),
       ...body,
     });
 
     this.userRepository.persistAndFlush(user);
     return user;
+  }
+
+  async updateUser(
+    id: string,
+    body: UpdateUserType,
+  ): Promise<{ status: string; data: User }> {
+    const user = await this.getUserById(id);
+
+    if (!user) {
+      throw new Error('User already exists!');
+    }
+
+    this.userRepository.assign(user, body);
+    return {
+      status: 'success',
+      data: user,
+    };
+  }
+
+  async deleteUser(id: string): Promise<{ status: string; data: User }> {
+    const user = await this.getUserById(id);
+    if (!user) {
+      throw new Error('User already exists!');
+    }
+
+    this.userRepository.removeAndFlush(user);
+
+    return {
+      status: 'success',
+      data: user,
+    };
   }
 }

@@ -47,3 +47,12 @@ export class OptionsQueryType {
   @Field(() => String, { defaultValue: '' })
   address: string;
 }
+
+@ObjectType()
+export class ResponseUser {
+  @Field(() => String)
+  status: string;
+
+  @Field(() => UserType)
+  data: UserType;
+}

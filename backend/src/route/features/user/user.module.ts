@@ -7,5 +7,6 @@ import { UserResolver } from './user.resolver';
 @Module({
   imports: [MikroOrmModule.forFeature([User])],
   providers: [UserService, UserResolver],
+  exports: [UserService],
 })
 export class UserModule {}

@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsOptional, IsEmail } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsEmail, MinLength } from 'class-validator';
 import { EnumRoleUser } from 'ts/enums';
 
 @InputType()
@@ -11,6 +11,11 @@ export class CreateUserType {
   @IsNotEmpty()
   @Field()
   username: string;
+
+  @IsNotEmpty()
+  @MinLength(8)
+  @Field()
+  password: string;
 
   @IsOptional()
   @Field(() => Number, { defaultValue: EnumRoleUser['USER'] })

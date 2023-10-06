@@ -19,6 +19,9 @@ export class UserType {
   @Field()
   username: string;
 
+  @Field()
+  password: string;
+
   @Field(() => Number)
   role: number;
 

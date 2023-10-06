@@ -11,6 +11,9 @@ export class User extends Base<User> {
   username!: string;
 
   @Property()
+  password!: string;
+
+  @Property()
   role!: number;
 
   @Property()
