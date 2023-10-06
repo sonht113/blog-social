@@ -1,8 +1,8 @@
 import { ReactElement, useCallback, useEffect } from 'react';
 
-import { ConfigProvider, theme as ThemeConfig } from 'antd';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import { COLOR } from '@/data';
 import { useThemeStore } from '@/hooks';
 
 type Props = {
@@ -41,22 +41,17 @@ function LayoutConfigProvider({ children }: Props) {
   }, [matchMode, setThemeState, theme]);
 
   return (
-    <ConfigProvider
-      componentSize="middle"
-      theme={{
-        token: {
-          colorPrimary:
-            COLOR[theme === 'dark' ? 'DARK_PRIMARY' : 'LIGHT_PRIMARY'],
-          fontFamily: 'Roboto',
+    <ThemeProvider
+      theme={createTheme({
+        palette: {
+          mode: theme,
         },
-        algorithm:
-          theme === 'dark'
-            ? ThemeConfig.darkAlgorithm
-            : ThemeConfig.defaultAlgorithm,
-      }}
+      })}
     >
+      {' '}
+      <CssBaseline />
       {children}
-    </ConfigProvider>
+    </ThemeProvider>
   );
 }
 
