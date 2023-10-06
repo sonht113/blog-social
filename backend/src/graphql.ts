@@ -21,6 +21,36 @@ export interface OptionsQueryType {
 export interface CreateUserType {
     fullname: string;
     username: string;
+    password: string;
+    role: number;
+    email: string;
+    dayOfBirth: string;
+    avatar: string;
+    phoneNumber: string;
+    desc: string;
+    address: string;
+}
+
+export interface UpdateUserType {
+    fullname?: Nullable<string>;
+    role?: Nullable<number>;
+    email?: Nullable<string>;
+    dayOfBirth?: Nullable<string>;
+    avatar?: Nullable<string>;
+    phoneNumber?: Nullable<string>;
+    desc?: Nullable<string>;
+    address?: Nullable<string>;
+}
+
+export interface LoginUserInputType {
+    username: string;
+    password: string;
+}
+
+export interface SignUpUserInputType {
+    fullname: string;
+    username: string;
+    password: string;
     role: number;
     email: string;
     dayOfBirth: string;
@@ -36,6 +66,7 @@ export interface UserType {
     updatedAt: DateTime;
     fullname: string;
     username: string;
+    password: string;
     role: number;
     email: string;
     avatar: string;
@@ -51,12 +82,28 @@ export interface PaginationUserType {
     totalPage: number;
 }
 
+export interface ResponseUser {
+    status: string;
+    data: UserType;
+}
+
+export interface LoginResponse {
+    access_token: string;
+    user: UserType;
+}
+
 export interface IQuery {
     getUsers(query: OptionsQueryType): PaginationUserType | Promise<PaginationUserType>;
+    getUserById(id: string): UserType | Promise<UserType>;
+    getUserByUserName(username: string): UserType | Promise<UserType>;
 }
 
 export interface IMutation {
     createUser(body: CreateUserType): UserType | Promise<UserType>;
+    updateUser(id: string, body: UpdateUserType): ResponseUser | Promise<ResponseUser>;
+    deleteUser(id: string): ResponseUser | Promise<ResponseUser>;
+    login(body: LoginUserInputType): LoginResponse | Promise<LoginResponse>;
+    signup(body: SignUpUserInputType): UserType | Promise<UserType>;
 }
 
 export type DateTime = any;

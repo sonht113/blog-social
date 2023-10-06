@@ -8,6 +8,7 @@ type UserType {
   updatedAt: DateTime!
   fullname: String!
   username: String!
+  password: String!
   role: Float!
   email: String!
   avatar: String!
@@ -28,8 +29,20 @@ type PaginationUserType {
   totalPage: Float!
 }
 
+type ResponseUser {
+  status: String!
+  data: UserType!
+}
+
+type LoginResponse {
+  access_token: String!
+  user: UserType!
+}
+
 type Query {
   getUsers(query: OptionsQueryType!): PaginationUserType!
+  getUserById(id: String!): UserType!
+  getUserByUserName(username: String!): UserType!
 }
 
 input OptionsQueryType {
@@ -44,11 +57,45 @@ input OptionsQueryType {
 
 type Mutation {
   createUser(body: CreateUserType!): UserType!
+  updateUser(id: String!, body: UpdateUserType!): ResponseUser!
+  deleteUser(id: String!): ResponseUser!
+  login(body: LoginUserInputType!): LoginResponse!
+  signup(body: SignUpUserInputType!): UserType!
 }
 
 input CreateUserType {
   fullname: String!
   username: String!
+  password: String!
+  role: Float! = 2
+  email: String!
+  dayOfBirth: String!
+  avatar: String! = ""
+  phoneNumber: String!
+  desc: String! = ""
+  address: String! = ""
+}
+
+input UpdateUserType {
+  fullname: String
+  role: Float
+  email: String
+  dayOfBirth: String
+  avatar: String
+  phoneNumber: String
+  desc: String
+  address: String
+}
+
+input LoginUserInputType {
+  username: String!
+  password: String!
+}
+
+input SignUpUserInputType {
+  fullname: String!
+  username: String!
+  password: String!
   role: Float! = 2
   email: String!
   dayOfBirth: String!
