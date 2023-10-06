@@ -30,6 +30,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "tsconfig.json"],
+  "include": ["src", "tsconfig.json", "codegen.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
