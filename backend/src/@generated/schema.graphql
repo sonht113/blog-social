@@ -47,6 +47,38 @@ type ResponseMutationType {
   data: CategoryType!
 }
 
+type BlogType {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  shortDesc: String!
+  content: String!
+  thumbnail: String!
+  creator: UserType!
+  like: Float!
+}
+
+type ResponseMutationBlogType {
+  status: String!
+  data: BlogType!
+}
+
+type CommentType {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  creator: UserType!
+  content: String!
+  blog: String!
+  like: Float!
+}
+
+type ResponseMutationCommentType {
+  status: String!
+  data: CommentType!
+}
+
 type LoginResponse {
   access_token: String!
   user: UserType!
@@ -61,6 +93,9 @@ type Query {
   getUserById(id: String!): UserType!
   getUserByUserName(username: String!): UserType!
   getCategories: [CategoryType!]!
+  getBlogs: [BlogType!]!
+  getBlogById(id: String!): BlogType!
+  getComments(idBlog: String!): [CommentType!]!
 }
 
 input OptionsQueryType {
@@ -79,6 +114,12 @@ type Mutation {
   deleteUser(id: String!): ResponseUser!
   createCategory(body: CreateCategoryType!): ResponseMutationType!
   deleteCategory(id: String!): ResponseMutationType!
+  createBlog(body: CreateBlogType!): ResponseMutationBlogType!
+  updateBlog(id: String!, body: UpdateBlogType!): ResponseMutationBlogType!
+  deleteBlog(id: String!): ResponseMutationBlogType!
+  createComment(body: CreateCommentType!): ResponseMutationCommentType!
+  updateComment(id: String!, body: UpdateCommentType!): ResponseMutationCommentType!
+  deleteComment(id: String!): ResponseMutationCommentType!
   login(body: LoginUserInputType!): LoginResponse!
   signup(body: SignUpUserInputType!): UserType!
   uploadSingleFiles(file: Upload!): ResponseSingleUpload!
@@ -100,18 +141,52 @@ input CreateUserType {
 
 input UpdateUserType {
   fullname: String
-  role: Float
+  username: String
+  password: String
+  role: Float = 2
   email: String
   dayOfBirth: String
-  avatar: String
+  avatar: String = ""
   phoneNumber: String
-  desc: String
-  address: String
+  desc: String = ""
+  address: String = ""
 }
 
 input CreateCategoryType {
   name: String!
   link: String!
+}
+
+input CreateBlogType {
+  title: String!
+  shortDesc: String = ""
+  content: String!
+  thumbnail: String!
+  creator: String!
+  like: Float = 0
+}
+
+input UpdateBlogType {
+  id: ID = "2642caf6-bdb4-4ae7-bc2c-fb0c1fd7ee7f"
+  createdAt: DateTime = "2023-10-07T16:06:14.932Z"
+  updatedAt: DateTime = "2023-10-07T16:06:14.932Z"
+  title: String
+  shortDesc: String = ""
+  content: String
+  thumbnail: String
+  like: Float = 0
+}
+
+input CreateCommentType {
+  creator: String!
+  content: String!
+  blog: String!
+  like: Float = 0
+}
+
+input UpdateCommentType {
+  content: String
+  like: Float = 0
 }
 
 input LoginUserInputType {

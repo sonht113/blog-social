@@ -33,6 +33,8 @@ export interface CreateUserType {
 
 export interface UpdateUserType {
     fullname?: Nullable<string>;
+    username?: Nullable<string>;
+    password?: Nullable<string>;
     role?: Nullable<number>;
     email?: Nullable<string>;
     dayOfBirth?: Nullable<string>;
@@ -45,6 +47,38 @@ export interface UpdateUserType {
 export interface CreateCategoryType {
     name: string;
     link: string;
+}
+
+export interface CreateBlogType {
+    title: string;
+    shortDesc?: Nullable<string>;
+    content: string;
+    thumbnail: string;
+    creator: string;
+    like?: Nullable<number>;
+}
+
+export interface UpdateBlogType {
+    id?: Nullable<string>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+    title?: Nullable<string>;
+    shortDesc?: Nullable<string>;
+    content?: Nullable<string>;
+    thumbnail?: Nullable<string>;
+    like?: Nullable<number>;
+}
+
+export interface CreateCommentType {
+    creator: string;
+    content: string;
+    blog: string;
+    like?: Nullable<number>;
+}
+
+export interface UpdateCommentType {
+    content?: Nullable<string>;
+    like?: Nullable<number>;
 }
 
 export interface LoginUserInputType {
@@ -105,6 +139,38 @@ export interface ResponseMutationType {
     data: CategoryType;
 }
 
+export interface BlogType {
+    id: string;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+    title: string;
+    shortDesc: string;
+    content: string;
+    thumbnail: string;
+    creator: UserType;
+    like: number;
+}
+
+export interface ResponseMutationBlogType {
+    status: string;
+    data: BlogType;
+}
+
+export interface CommentType {
+    id: string;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+    creator: UserType;
+    content: string;
+    blog: string;
+    like: number;
+}
+
+export interface ResponseMutationCommentType {
+    status: string;
+    data: CommentType;
+}
+
 export interface LoginResponse {
     access_token: string;
     user: UserType;
@@ -119,6 +185,9 @@ export interface IQuery {
     getUserById(id: string): UserType | Promise<UserType>;
     getUserByUserName(username: string): UserType | Promise<UserType>;
     getCategories(): CategoryType[] | Promise<CategoryType[]>;
+    getBlogs(): BlogType[] | Promise<BlogType[]>;
+    getBlogById(id: string): BlogType | Promise<BlogType>;
+    getComments(idBlog: string): CommentType[] | Promise<CommentType[]>;
 }
 
 export interface IMutation {
@@ -127,6 +196,12 @@ export interface IMutation {
     deleteUser(id: string): ResponseUser | Promise<ResponseUser>;
     createCategory(body: CreateCategoryType): ResponseMutationType | Promise<ResponseMutationType>;
     deleteCategory(id: string): ResponseMutationType | Promise<ResponseMutationType>;
+    createBlog(body: CreateBlogType): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
+    updateBlog(id: string, body: UpdateBlogType): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
+    deleteBlog(id: string): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
+    createComment(body: CreateCommentType): ResponseMutationCommentType | Promise<ResponseMutationCommentType>;
+    updateComment(id: string, body: UpdateCommentType): ResponseMutationCommentType | Promise<ResponseMutationCommentType>;
+    deleteComment(id: string): ResponseMutationCommentType | Promise<ResponseMutationCommentType>;
     login(body: LoginUserInputType): LoginResponse | Promise<LoginResponse>;
     signup(body: SignUpUserInputType): UserType | Promise<UserType>;
     uploadSingleFiles(file: Upload): ResponseSingleUpload | Promise<ResponseSingleUpload>;
