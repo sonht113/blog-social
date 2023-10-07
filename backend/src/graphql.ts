@@ -92,6 +92,10 @@ export interface LoginResponse {
     user: UserType;
 }
 
+export interface ResponseSingleUpload {
+    url: string;
+}
+
 export interface IQuery {
     getUsers(query: OptionsQueryType): PaginationUserType | Promise<PaginationUserType>;
     getUserById(id: string): UserType | Promise<UserType>;
@@ -104,7 +108,10 @@ export interface IMutation {
     deleteUser(id: string): ResponseUser | Promise<ResponseUser>;
     login(body: LoginUserInputType): LoginResponse | Promise<LoginResponse>;
     signup(body: SignUpUserInputType): UserType | Promise<UserType>;
+    uploadSingleFiles(file: Upload): ResponseSingleUpload | Promise<ResponseSingleUpload>;
+    uploadMultipleFiles(files: Upload[]): ResponseSingleUpload[] | Promise<ResponseSingleUpload[]>;
 }
 
 export type DateTime = any;
+export type Upload = any;
 type Nullable<T> = T | null;

@@ -18,9 +18,8 @@ async function bootstrap() {
 
   app.use((req: any, res: any, next: any) => {
     if (req.url.includes('/graphql')) {
-      // only graphql request
       graphqlUploadExpress({
-        maxFileSize: 100000000,
+        maxFileSize: 1000000,
         maxFiles: 10,
       })(req, res, next);
     } else {
