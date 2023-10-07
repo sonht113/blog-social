@@ -9,3 +9,8 @@ export type QueryOptions<T> = Partial<T> & {
   page?: number;
   limit?: number;
 };
+
+export type ResponseMutation<T> = {
+  status: string;
+  data?: T;
+};
