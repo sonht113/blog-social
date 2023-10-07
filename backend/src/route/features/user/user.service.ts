@@ -8,6 +8,7 @@ import { Pagination, QueryOptions } from 'ts/types';
 import { checkValueEmpty } from 'utils/common';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserType } from './types/update-user.type';
+import { wrap } from '@mikro-orm/core';
 
 @Injectable()
 export class UserService {
@@ -81,10 +82,13 @@ export class UserService {
     const user = await this.getUserById(id);
 
     if (!user) {
-      throw new Error('User already exists!');
+      throw new Error('User not found');
     }
 
-    this.userRepository.assign(user, body);
+    wrap(user).assign(body, { mergeObjects: true });
+
+    await this.userRepository.flush();
+
     return {
       status: 'success',
       data: user,
@@ -94,7 +98,7 @@ export class UserService {
   async deleteUser(id: string): Promise<{ status: string; data: User }> {
     const user = await this.getUserById(id);
     if (!user) {
-      throw new Error('User already exists!');
+      throw new Error('User not found!');
     }
 
     this.userRepository.removeAndFlush(user);
