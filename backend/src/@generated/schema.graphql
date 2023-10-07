@@ -39,6 +39,10 @@ type LoginResponse {
   user: UserType!
 }
 
+type ResponseSingleUpload {
+  url: String!
+}
+
 type Query {
   getUsers(query: OptionsQueryType!): PaginationUserType!
   getUserById(id: String!): UserType!
@@ -61,6 +65,8 @@ type Mutation {
   deleteUser(id: String!): ResponseUser!
   login(body: LoginUserInputType!): LoginResponse!
   signup(body: SignUpUserInputType!): UserType!
+  uploadSingleFiles(file: Upload!): ResponseSingleUpload!
+  uploadMultipleFiles(files: [Upload!]!): [ResponseSingleUpload!]!
 }
 
 input CreateUserType {
@@ -104,3 +110,6 @@ input SignUpUserInputType {
   desc: String! = ""
   address: String! = ""
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
