@@ -1,72 +1,73 @@
 import React, { FC } from 'react';
 
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Popover,
-  Button,
-} from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Box, Button, Drawer, List } from '@mui/material';
 
+import MenuItem from './menu-items';
 import { HEADER_LIST_ITEM } from '../constant';
 
 type Props = {
   className?: string;
 };
+type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 const MenuMobile: FC<Props> = ({ className }) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null,
+  const [state, setState] = React.useState({
+    left: false,
+  });
+
+  const toggleDrawer =
+    (anchor: Anchor, open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+      setState({ ...state, [anchor]: open });
+    };
+
+  const list = (anchor: Anchor) => (
+    <Box
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List className="flex flex-col gap-5 justify-start">
+        {HEADER_LIST_ITEM.map((el) => (
+          <MenuItem key={el.id} text={el.text} path={el.path} />
+        ))}
+      </List>
+    </Box>
   );
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const style = {
-    width: '100%',
-    maxWidth: 360,
-    bgcolor: 'background.paper',
-  };
   return (
     <div className={`${className}`}>
-      <Button aria-describedby={id} onClick={handleClick}>
-        <MenuIcon
-          fontSize="large"
-          className="text-xl fill-black dark:fill-white"
-        />
-      </Button>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-      >
-        <List sx={style}>
-          {HEADER_LIST_ITEM.map((el) => (
-            <Link to={el.path} key={el.id}>
-              <ListItem>
-                <ListItemText primary={el.text} />
-              </ListItem>
-              <Divider />
-            </Link>
-          ))}
-        </List>
-      </Popover>
+      {(['left'] as const).map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Button onClick={toggleDrawer(anchor, true)}>
+            <MenuIcon />
+          </Button>
+          <Drawer
+            anchor={anchor}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+            className="xl:hidden"
+          >
+            <div className="w-full flex justify-between px-4 py-4 items-center">
+              <span className="text-xl font-bold">MENU</span>
+              <button onClick={toggleDrawer(anchor, false)}>
+                <CancelOutlinedIcon />
+              </button>
+            </div>
+            {list(anchor)}
+          </Drawer>
+        </React.Fragment>
+      ))}
     </div>
   );
 };
