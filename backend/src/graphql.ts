@@ -42,6 +42,11 @@ export interface UpdateUserType {
     address?: Nullable<string>;
 }
 
+export interface CreateCategoryType {
+    name: string;
+    link: string;
+}
+
 export interface LoginUserInputType {
     username: string;
     password: string;
@@ -87,6 +92,19 @@ export interface ResponseUser {
     data: UserType;
 }
 
+export interface CategoryType {
+    id: string;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+    name: string;
+    link: string;
+}
+
+export interface ResponseMutationType {
+    status: string;
+    data: CategoryType;
+}
+
 export interface LoginResponse {
     access_token: string;
     user: UserType;
@@ -100,12 +118,15 @@ export interface IQuery {
     getUsers(query: OptionsQueryType): PaginationUserType | Promise<PaginationUserType>;
     getUserById(id: string): UserType | Promise<UserType>;
     getUserByUserName(username: string): UserType | Promise<UserType>;
+    getCategories(): CategoryType[] | Promise<CategoryType[]>;
 }
 
 export interface IMutation {
     createUser(body: CreateUserType): UserType | Promise<UserType>;
     updateUser(id: string, body: UpdateUserType): ResponseUser | Promise<ResponseUser>;
     deleteUser(id: string): ResponseUser | Promise<ResponseUser>;
+    createCategory(body: CreateCategoryType): ResponseMutationType | Promise<ResponseMutationType>;
+    deleteCategory(id: string): ResponseMutationType | Promise<ResponseMutationType>;
     login(body: LoginUserInputType): LoginResponse | Promise<LoginResponse>;
     signup(body: SignUpUserInputType): UserType | Promise<UserType>;
     uploadSingleFiles(file: Upload): ResponseSingleUpload | Promise<ResponseSingleUpload>;

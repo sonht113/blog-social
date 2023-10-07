@@ -34,6 +34,19 @@ type ResponseUser {
   data: UserType!
 }
 
+type CategoryType {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  link: String!
+}
+
+type ResponseMutationType {
+  status: String!
+  data: CategoryType!
+}
+
 type LoginResponse {
   access_token: String!
   user: UserType!
@@ -47,6 +60,7 @@ type Query {
   getUsers(query: OptionsQueryType!): PaginationUserType!
   getUserById(id: String!): UserType!
   getUserByUserName(username: String!): UserType!
+  getCategories: [CategoryType!]!
 }
 
 input OptionsQueryType {
@@ -63,6 +77,8 @@ type Mutation {
   createUser(body: CreateUserType!): UserType!
   updateUser(id: String!, body: UpdateUserType!): ResponseUser!
   deleteUser(id: String!): ResponseUser!
+  createCategory(body: CreateCategoryType!): ResponseMutationType!
+  deleteCategory(id: String!): ResponseMutationType!
   login(body: LoginUserInputType!): LoginResponse!
   signup(body: SignUpUserInputType!): UserType!
   uploadSingleFiles(file: Upload!): ResponseSingleUpload!
@@ -91,6 +107,11 @@ input UpdateUserType {
   phoneNumber: String
   desc: String
   address: String
+}
+
+input CreateCategoryType {
+  name: String!
+  link: String!
 }
 
 input LoginUserInputType {
