@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import { BsMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 
 import { useThemeStore } from '@/hooks';
@@ -8,7 +7,7 @@ const ThemeButton = () => {
   const setTheme = useThemeStore((state) => state.setTheme);
 
   return (
-    <Button
+    <button
       onClick={() => {
         theme === 'dark'
           ? setTheme({ theme: 'light' })
@@ -17,7 +16,7 @@ const ThemeButton = () => {
       className="text-3xl"
     >
       {theme === 'dark' ? <BsFillSunFill /> : <BsMoonStarsFill />}
-    </Button>
+    </button>
   );
 };
 
