@@ -25,7 +25,7 @@ const HeaderComponent: FC = () => {
       <div className="w-full bg-red-600">
         <center>
           <div className="w-full justify-around flex items-center py-2.5 xl:w-4.5/5">
-            <MenuMobile className="xl:hidden" />
+            <MenuMobile className="block xl:hidden" />
             <div className="hidden xl:block">
               {HEADER_LIST_ITEM.map((el) => (
                 <MenuItem text={el.text} path={el.path} key={el.id} />
@@ -33,6 +33,7 @@ const HeaderComponent: FC = () => {
             </div>
             <div className="flex justify-center items-center xl:gap-5 ">
               <OutlinedInput
+                className="mr-3"
                 id="outlined-adornment-text"
                 endAdornment={
                   <InputAdornment position="end">

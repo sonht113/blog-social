@@ -41,9 +41,10 @@ const MenuMobile: FC<Props> = ({ className }) => {
   return (
     <div className={`${className}`}>
       <Button aria-describedby={id} onClick={handleClick}>
-        <div className=" w-[30px] xl:hidden">
-          <Button startIcon={<MenuIcon />}>MENU</Button>
-        </div>
+        <MenuIcon
+          fontSize="large"
+          className="text-xl fill-black dark:fill-white"
+        />
       </Button>
       <Popover
         id={id}
@@ -57,7 +58,7 @@ const MenuMobile: FC<Props> = ({ className }) => {
       >
         <List sx={style}>
           {HEADER_LIST_ITEM.map((el) => (
-            <Link to={el.path} key={el.id} className="xl:hidden">
+            <Link to={el.path} key={el.id}>
               <ListItem>
                 <ListItemText primary={el.text} />
               </ListItem>
