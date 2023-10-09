@@ -1,20 +1,23 @@
 import { cloneDeep } from 'lodash';
+import { AiOutlineDashboard, AiOutlineUser } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-import { HOME_PATH, USER_PATH } from './path';
+import { DASHBOARD_PATH, USER_PATH } from './path';
 import { TypeNavs, TypeRoutes } from './type-navs';
-import { Home, Users } from '@/pages';
+import { Dashboard, Users } from '@/pages';
 import { capitalizeFirstLetter } from '@/utils';
 
 const navs: TypeNavs[] = [
   {
-    key: HOME_PATH,
-    label: 'home',
-    element: <Home />,
+    key: DASHBOARD_PATH,
+    label: 'dashboard',
+    icon: <AiOutlineDashboard size={18} />,
+    element: <Dashboard />,
   },
   {
     key: USER_PATH,
     label: 'user',
+    icon: <AiOutlineUser size={18} />,
     element: <Users />,
   },
 ];
@@ -63,6 +66,8 @@ const getShowNavigation = (
 
   return {
     key: basePath + nav.key,
+    icon: nav.icon,
+    title: addLink(nav, basePath + nav.key),
     label: addLink(nav, basePath + nav.key),
     children: nav.children,
     element: nav.element,

@@ -2,8 +2,10 @@ import { ReactElement } from 'react';
 
 type NavsChild = {
   key: string;
+  title?: string | ReactElement;
   label?: string | ReactElement;
   element?: ReactElement;
+  icon?: ReactElement;
 };
 
 export type TypeNavs = NavsChild & {
