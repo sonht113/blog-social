@@ -167,9 +167,9 @@ input CreateBlogType {
 }
 
 input UpdateBlogType {
-  id: ID = "2642caf6-bdb4-4ae7-bc2c-fb0c1fd7ee7f"
-  createdAt: DateTime = "2023-10-07T16:06:14.932Z"
-  updatedAt: DateTime = "2023-10-07T16:06:14.932Z"
+  id: ID = "f45f4ff6-e925-4709-b60c-654cfa46ba8b"
+  createdAt: DateTime = "2023-10-09T08:38:14.300Z"
+  updatedAt: DateTime = "2023-10-09T08:38:14.300Z"
   title: String
   shortDesc: String = ""
   content: String

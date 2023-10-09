@@ -250,12 +250,12 @@
         },
         "like": {
           "name": "like",
-          "type": "varchar(255)",
+          "type": "int",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "integer"
         }
       },
       "name": "comment",
