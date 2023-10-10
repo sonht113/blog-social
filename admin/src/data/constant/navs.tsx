@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { DASHBOARD_PATH, USER_PATH } from './path';
 import { TypeNavs, TypeRoutes } from './type-navs';
 import { Dashboard, Users } from '@/pages';
+import PrivateRoute from '@/routes/private-router';
 import { capitalizeFirstLetter } from '@/utils';
 
 const navs: TypeNavs[] = [
@@ -32,10 +33,7 @@ const getRoutes = (arr: TypeRoutes[], nav: TypeNavs, basePath = '') => {
 
   arr.push({
     path: basePath + nav.key,
-    // element: nav.element && (
-    //   <PrivateRoute permission={nav.permission}>{nav.element}</PrivateRoute>
-    // ),
-    element: nav.element,
+    element: <PrivateRoute>{nav.element}</PrivateRoute>,
   });
 
   return arr;
