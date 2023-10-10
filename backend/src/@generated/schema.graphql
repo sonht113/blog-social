@@ -29,6 +29,20 @@ type PaginationUserType {
   totalPage: Float!
 }
 
+type UserDataResponse {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  fullname: String!
+  username: String!
+  role: Float!
+  email: String!
+  avatar: String!
+  phoneNumber: String!
+  desc: String!
+  address: String!
+}
+
 type ResponseUser {
   status: String!
   data: UserType!
@@ -90,8 +104,8 @@ type ResponseSingleUpload {
 
 type Query {
   getUsers(query: OptionsQueryType!): PaginationUserType!
-  getUserById(id: String!): UserType!
-  getUserByUserName(username: String!): UserType!
+  getUserById(id: String!): UserDataResponse!
+  getUserByUserName(username: String!): UserDataResponse!
   getCategories: [CategoryType!]!
   getBlogs: [BlogType!]!
   getBlogById(id: String!): BlogType!
@@ -109,8 +123,9 @@ input OptionsQueryType {
 }
 
 type Mutation {
-  createUser(body: CreateUserType!): UserType!
+  createUser(body: CreateUserType!): UserDataResponse!
   updateUser(id: String!, body: UpdateUserType!): ResponseUser!
+  updatePassword(id: String!, oldPassword: String!, newPassword: String!): ResponseUser!
   deleteUser(id: String!): ResponseUser!
   createCategory(body: CreateCategoryType!): ResponseMutationType!
   deleteCategory(id: String!): ResponseMutationType!
@@ -167,9 +182,9 @@ input CreateBlogType {
 }
 
 input UpdateBlogType {
-  id: ID = "f45f4ff6-e925-4709-b60c-654cfa46ba8b"
-  createdAt: DateTime = "2023-10-09T08:38:14.300Z"
-  updatedAt: DateTime = "2023-10-09T08:38:14.300Z"
+  id: ID = "67682e90-f103-4189-9e1c-b3fdfd343d22"
+  createdAt: DateTime = "2023-10-10T15:38:45.426Z"
+  updatedAt: DateTime = "2023-10-10T15:38:45.426Z"
   title: String
   shortDesc: String = ""
   content: String

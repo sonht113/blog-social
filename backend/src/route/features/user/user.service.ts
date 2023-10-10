@@ -65,9 +65,10 @@ export class UserService {
   }
 
   async createUser(body: CreateUserType): Promise<User> {
+    const password = await bcrypt.hash(body.password, 10);
     const user = this.userRepository.create({
       id: uuid(),
-      password: bcrypt.hash(body.password, 10),
+      password,
       ...body,
     });
 
@@ -87,6 +88,33 @@ export class UserService {
 
     wrap(user).assign(body, { mergeObjects: true });
 
+    await this.userRepository.flush();
+
+    return {
+      status: 'success',
+      data: user,
+    };
+  }
+
+  async updatePassword(
+    id: string,
+    oldPassword: string,
+    newPassword: string,
+  ): Promise<{ status: string; data: User }> {
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
+      throw new Error('User not found!');
+    }
+
+    const validPass = await bcrypt.compare(oldPassword, user.password);
+
+    if (!validPass) {
+      throw new Error('The old password not valid!');
+    }
+
+    const password = await bcrypt.hash(newPassword, 10);
+
+    wrap(user).assign({ password }, { mergeObjects: true });
     await this.userRepository.flush();
 
     return {

@@ -121,6 +121,20 @@ export interface PaginationUserType {
     totalPage: number;
 }
 
+export interface UserDataResponse {
+    id: string;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+    fullname: string;
+    username: string;
+    role: number;
+    email: string;
+    avatar: string;
+    phoneNumber: string;
+    desc: string;
+    address: string;
+}
+
 export interface ResponseUser {
     status: string;
     data: UserType;
@@ -182,8 +196,8 @@ export interface ResponseSingleUpload {
 
 export interface IQuery {
     getUsers(query: OptionsQueryType): PaginationUserType | Promise<PaginationUserType>;
-    getUserById(id: string): UserType | Promise<UserType>;
-    getUserByUserName(username: string): UserType | Promise<UserType>;
+    getUserById(id: string): UserDataResponse | Promise<UserDataResponse>;
+    getUserByUserName(username: string): UserDataResponse | Promise<UserDataResponse>;
     getCategories(): CategoryType[] | Promise<CategoryType[]>;
     getBlogs(): BlogType[] | Promise<BlogType[]>;
     getBlogById(id: string): BlogType | Promise<BlogType>;
@@ -191,8 +205,9 @@ export interface IQuery {
 }
 
 export interface IMutation {
-    createUser(body: CreateUserType): UserType | Promise<UserType>;
+    createUser(body: CreateUserType): UserDataResponse | Promise<UserDataResponse>;
     updateUser(id: string, body: UpdateUserType): ResponseUser | Promise<ResponseUser>;
+    updatePassword(id: string, oldPassword: string, newPassword: string): ResponseUser | Promise<ResponseUser>;
     deleteUser(id: string): ResponseUser | Promise<ResponseUser>;
     createCategory(body: CreateCategoryType): ResponseMutationType | Promise<ResponseMutationType>;
     deleteCategory(id: string): ResponseMutationType | Promise<ResponseMutationType>;
