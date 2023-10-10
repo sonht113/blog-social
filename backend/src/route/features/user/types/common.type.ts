@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType, OmitType } from '@nestjs/graphql';
 import { UserType } from './user.type';
 import { IsOptional } from 'class-validator';
 
@@ -49,10 +49,13 @@ export class OptionsQueryType {
 }
 
 @ObjectType()
+export class UserDataResponse extends OmitType(UserType, ['password']) {}
+
+@ObjectType()
 export class ResponseUser {
   @Field(() => String)
   status: string;
 
   @Field(() => UserType)
-  data: UserType;
+  data: UserDataResponse;
 }
