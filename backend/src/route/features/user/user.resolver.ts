@@ -1,13 +1,15 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { UserType } from './types/user.type';
 import { CreateUserType } from './types/create-user.type';
 import {
   OptionsQueryType,
   PaginationUserType,
   ResponseUser,
+  UserDataResponse,
 } from './types/common.type';
 import { UpdateUserType } from './types/update-user.type';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'route/auth/jwt-auth.guard';
 
 @Resolver()
 export class UserResolver {
@@ -18,27 +20,40 @@ export class UserResolver {
     return this.userService.getUsers(query);
   }
 
-  @Query(() => UserType)
+  @Query(() => UserDataResponse)
   getUserById(@Args('id') id: string) {
     return this.userService.getUserById(id);
   }
 
-  @Query(() => UserType)
+  @Query(() => UserDataResponse)
   getUserByUserName(@Args('username') username: string) {
     return this.userService.getUserByUserName(username);
   }
 
-  @Mutation(() => UserType)
+  @Mutation(() => UserDataResponse)
+  @UseGuards(JwtAuthGuard)
   createUser(@Args('body') body: CreateUserType) {
     return this.userService.createUser(body);
   }
 
   @Mutation(() => ResponseUser)
+  @UseGuards(JwtAuthGuard)
   updateUser(@Args('id') id: string, @Args('body') body: UpdateUserType) {
     return this.userService.updateUser(id, body);
   }
 
   @Mutation(() => ResponseUser)
+  @UseGuards(JwtAuthGuard)
+  updatePassword(
+    @Args('id') id: string,
+    @Args('oldPassword') oldPassword: string,
+    @Args('newPassword') newPassword: string,
+  ) {
+    return this.userService.updatePassword(id, oldPassword, newPassword);
+  }
+
+  @Mutation(() => ResponseUser)
+  @UseGuards(JwtAuthGuard)
   deleteUser(@Args('id') id: string) {
     return this.userService.deleteUser(id);
   }

@@ -13,6 +13,8 @@ import { BlogType } from './types/blog.type';
 import { UserService } from '../user/user.service';
 import { Blog } from './blog.entity';
 import { UpdateBlogType } from './types/update-blog';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'route/auth/jwt-auth.guard';
 
 @Resolver(() => BlogType)
 export class BlogResolver {
@@ -32,16 +34,19 @@ export class BlogResolver {
   }
 
   @Mutation(() => ResponseMutationBlogType)
+  @UseGuards(JwtAuthGuard)
   createBlog(@Args('body') body: CreateBlogType) {
     return this.blogService.createBlog(body);
   }
 
   @Mutation(() => ResponseMutationBlogType)
+  @UseGuards(JwtAuthGuard)
   updateBlog(@Args('id') id: string, @Args('body') body: UpdateBlogType) {
     return this.blogService.updateBlog(id, body);
   }
 
   @Mutation(() => ResponseMutationBlogType)
+  @UseGuards(JwtAuthGuard)
   deleteBlog(@Args('id') id: string) {
     return this.blogService.deleteBlog(id);
   }

@@ -13,6 +13,8 @@ import { CreateCommentType } from './types/create-comment.type';
 import { UpdateCommentType } from './types/update-comment.type';
 import { Comment } from './comment.entity';
 import { UserService } from '../user/user.service';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'route/auth/jwt-auth.guard';
 
 @Resolver(() => CommentType)
 export class CommentResolver {
@@ -27,16 +29,19 @@ export class CommentResolver {
   }
 
   @Mutation(() => ResponseMutationCommentType)
+  @UseGuards(JwtAuthGuard)
   createComment(@Args('body') body: CreateCommentType) {
     return this.commentService.createComment(body);
   }
 
   @Mutation(() => ResponseMutationCommentType)
+  @UseGuards(JwtAuthGuard)
   updateComment(@Args('id') id: string, @Args('body') body: UpdateCommentType) {
     return this.commentService.updateComment(id, body);
   }
 
   @Mutation(() => ResponseMutationCommentType)
+  @UseGuards(JwtAuthGuard)
   deleteComment(@Args('id') id: string) {
     return this.commentService.deleteComment(id);
   }
