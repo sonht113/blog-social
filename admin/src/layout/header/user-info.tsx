@@ -1,6 +1,15 @@
+import { useCallback, useEffect } from 'react';
+
 import { Avatar, Dropdown, Space, Typography } from 'antd';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
+import { MenuClickEventHandler } from 'rc-menu/lib/interface';
+import toast from 'react-hot-toast';
 import { AiOutlineDown, AiOutlineLogout, AiOutlineUser } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+
+import { LOGIN_PATH, USER_PATH } from '@/data';
+import { useLogoutMutation } from '@/features/auth';
+import { useQueryInfoUser } from '@/hooks';
 
 const items: ItemType[] = [
   {
@@ -20,39 +29,49 @@ const items: ItemType[] = [
 ];
 
 const UserInfo = () => {
-  //const { data: user, isError } = useInfoQuery();
+  const navigate = useNavigate();
+  const { data, error } = useQueryInfoUser();
 
   // Instant logout when unidentified
-  // useEffect(() => {
-  //   if (isError) {
-  //     localStorage.removeItem('token');
-  //     window.location.replace(LOGIN_PATH);
-  //   }
-  // }, [isError]);
+  useEffect(() => {
+    if (error) {
+      localStorage.removeItem('token');
+      window.location.replace(LOGIN_PATH);
+    }
+  }, [error]);
 
-  // const { mutate } = useLogoutMutation();
+  const { logout } = useLogoutMutation();
 
-  // const handleClick: MenuClickEventHandler = useCallback(
-  //   ({ key }) => {
-  //     if (key === '2') {
-  //       mutate(undefined);
-  //     } else if (key === '1') {
-  //       navigate(`${USER_PATH}/${user?.id ?? ''}`);
-  //     }
-  //   },
-  //   [mutate, navigate, user],
-  // );
+  const handleClick: MenuClickEventHandler = useCallback(
+    ({ key }) => {
+      if (key === '2') {
+        logout();
+        toast.success('Đăng xuất thành công');
+      } else if (key === '1') {
+        navigate(`${USER_PATH}/${data?.getInfo.id ?? ''}`);
+      }
+    },
+    [logout, navigate, data?.getInfo.id],
+  );
 
   return (
     <Dropdown
-      menu={{ items }}
+      menu={{ items, onClick: handleClick }}
       trigger={['click']}
       placement="bottomRight"
       arrow
     >
       <Space className="cursor-pointer">
-        <Avatar size="small" icon={<AiOutlineUser />} className="block" />
-        <Typography.Text>hello</Typography.Text>
+        {data?.getInfo.avatar ? (
+          <Avatar size="small" src={data?.getInfo.avatar} className="block" />
+        ) : (
+          <Avatar
+            size="small"
+            icon={<AiOutlineUser />}
+            className="flex justify-center items-center"
+          />
+        )}
+        <Typography.Text>{data?.getInfo.fullname}</Typography.Text>
         <AiOutlineDown className="block" />
       </Space>
     </Dropdown>
