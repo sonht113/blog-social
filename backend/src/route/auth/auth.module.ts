@@ -13,7 +13,7 @@ import { JwtStrategy } from './jwt.strategy';
     UserModule,
     JwtModule.register({
       signOptions: { expiresIn: '1d' },
-      secret: 'follow-me',
+      secret: 'dev-blog',
     }),
   ],
   providers: [AuthService, AuthResolver, LocalStrategy, JwtStrategy],

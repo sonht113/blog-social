@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { CreateUserType } from './types/create-user.type';
 import {
@@ -28,6 +28,12 @@ export class UserResolver {
   @Query(() => UserDataResponse)
   getUserByUserName(@Args('username') username: string) {
     return this.userService.getUserByUserName(username);
+  }
+
+  @Query(() => UserDataResponse)
+  @UseGuards(JwtAuthGuard)
+  getInfo(@Context() context) {
+    return this.userService.getUserByUserName(context.req.user.username);
   }
 
   @Mutation(() => UserDataResponse)

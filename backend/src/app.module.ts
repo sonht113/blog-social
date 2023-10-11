@@ -20,6 +20,7 @@ import { RouteModule } from './route/route.module';
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
       },
+      context: ({ req }) => ({ req }),
     }),
     MikroOrmModule.forRoot(),
     RouteModule,

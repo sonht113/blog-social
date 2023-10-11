@@ -106,6 +106,7 @@ type Query {
   getUsers(query: OptionsQueryType!): PaginationUserType!
   getUserById(id: String!): UserDataResponse!
   getUserByUserName(username: String!): UserDataResponse!
+  getInfo: UserDataResponse!
   getCategories: [CategoryType!]!
   getBlogs: [BlogType!]!
   getBlogById(id: String!): BlogType!
@@ -182,9 +183,9 @@ input CreateBlogType {
 }
 
 input UpdateBlogType {
-  id: ID = "67682e90-f103-4189-9e1c-b3fdfd343d22"
-  createdAt: DateTime = "2023-10-10T15:38:45.426Z"
-  updatedAt: DateTime = "2023-10-10T15:38:45.426Z"
+  id: ID = "49444a78-fddf-4b8e-b706-356215a053a1"
+  createdAt: DateTime = "2023-10-11T11:05:25.728Z"
+  updatedAt: DateTime = "2023-10-11T11:05:25.728Z"
   title: String
   shortDesc: String = ""
   content: String

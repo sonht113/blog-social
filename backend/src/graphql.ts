@@ -198,6 +198,7 @@ export interface IQuery {
     getUsers(query: OptionsQueryType): PaginationUserType | Promise<PaginationUserType>;
     getUserById(id: string): UserDataResponse | Promise<UserDataResponse>;
     getUserByUserName(username: string): UserDataResponse | Promise<UserDataResponse>;
+    getInfo(): UserDataResponse | Promise<UserDataResponse>;
     getCategories(): CategoryType[] | Promise<CategoryType[]>;
     getBlogs(): BlogType[] | Promise<BlogType[]>;
     getBlogById(id: string): BlogType | Promise<BlogType>;
