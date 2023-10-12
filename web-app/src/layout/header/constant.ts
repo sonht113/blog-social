@@ -1,3 +1,7 @@
+import { PROFILE_PATH } from '@/data';
+
+export const HEADER_LOGO_TEXT = 'BLOG DEV';
+
 export const HEADER_LIST_ITEM = [
   {
     id: 1,
@@ -34,10 +38,9 @@ export const HEADER_LIST_ITEM = [
     text: 'Technology',
     path: '/technology',
   },
-];
+] as const;
+
 export const PROFILE_LIST_ITEM = [
-  { id: 1, name: 'View Profile', path: '/view-profile' },
-  { id: 2, name: 'Edit Profile', path: '/edit-profile' },
-  { id: 3, name: 'Setting', path: '/setting' },
+  { id: 1, name: 'View Profile', path: PROFILE_PATH },
+  { id: 2, name: 'Logout' },
 ];
-export const HEADER_LOGO_TEXT = 'BLOG DEV';
