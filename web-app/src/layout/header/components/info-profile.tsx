@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ElementType, Fragment } from 'react';
 
 import {
   Popover,
@@ -8,9 +8,17 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 import { PROFILE_LIST_ITEM } from '../constant';
+import { useLogoutMutation } from '@/features/auth';
+
+const style = {
+  width: '100%',
+  maxWidth: 360,
+  bgcolor: 'background.paper',
+};
 
 const InfoProfile = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -20,18 +28,19 @@ const InfoProfile = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const { logout } = useLogoutMutation();
+
+  const handleLogout = () => {
+    void logout();
+    void toast.success('Logout successfully');
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
-  const style = {
-    width: '100%',
-    maxWidth: 360,
-    bgcolor: 'background.paper',
-  };
 
   return (
     <>
@@ -52,13 +61,20 @@ const InfoProfile = () => {
         }}
       >
         <List sx={style}>
-          {PROFILE_LIST_ITEM.map((el) => (
-            <Link to={el.path} key={el.id}>
-              <ListItem>
-                <ListItemText primary={el.name} />
-              </ListItem>
-            </Link>
-          ))}
+          {PROFILE_LIST_ITEM.map((el) => {
+            const Component: ElementType = el.path ? Link : Fragment;
+
+            return (
+              <Component {...(el.path ? { to: el.path } : {})} key={el.id}>
+                <ListItem
+                  className="cursor-pointer"
+                  {...(el.path ? {} : { onClick: handleLogout })}
+                >
+                  <ListItemText primary={el.name} />
+                </ListItem>
+              </Component>
+            );
+          })}
         </List>
       </Popover>
     </>
