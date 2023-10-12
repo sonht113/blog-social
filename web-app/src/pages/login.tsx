@@ -15,6 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ConfirmButton, InputPassword } from '@/components';
 import { HOME_PATH, SIGN_UP_PATH } from '@/data';
 import { useAuthStore, useLoginMutation } from '@/features/auth';
+import { validator, validatorFn, getValueValidatorFn } from '@/utils';
 
 type Inputs = {
   username: string;
@@ -92,7 +93,7 @@ const Login: FC = () => {
           >
             <Controller
               control={control}
-              rules={{ required: 'This field is required' }}
+              rules={validator('required')}
               render={({ field }) => (
                 <FormControl fullWidth>
                   <TextField
@@ -114,7 +115,13 @@ const Login: FC = () => {
 
             <Controller
               control={control}
-              rules={{ required: 'This field is required', minLength: 8 }}
+              rules={{
+                ...validator('required'),
+                ...validatorFn(
+                  'minLength',
+                  getValueValidatorFn('minLength')(8),
+                ),
+              }}
               render={({ field: { onChange, value } }) => (
                 <FormControl fullWidth>
                   <InputPassword
