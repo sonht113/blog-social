@@ -5,11 +5,15 @@ import { FiSearch } from 'react-icons/fi';
 
 import { InfoProfile, MenuItem, MenuMobile, ThemeButton } from './components';
 import { HEADER_LIST_ITEM, HEADER_LOGO_TEXT } from './constant';
+import { CommonButton } from '@/components';
+import { LOGIN_PATH } from '@/data';
+import { useAuthStore } from '@/features/auth';
 // import { useActiveMenu } from '@/hooks';
 
 const HeaderComponent: FC = () => {
   // const { checkActive } = useActiveMenu();
   // const isActive = checkActive(['/computer', '/technology']);
+  const token = useAuthStore((state) => state.token);
   return (
     <header className="bg-secondary block fixed w-full inset-x-0 z-30 h-16 shadow-md">
       <div className="w-full bg-black flex justify-center items-center gap-10 py-1.5">
@@ -42,7 +46,13 @@ const HeaderComponent: FC = () => {
                 }
               />
               <ThemeButton />
-              <InfoProfile />
+              {token ? (
+                <InfoProfile />
+              ) : (
+                <CommonButton actionBtn="redirect" href={LOGIN_PATH}>
+                  Login
+                </CommonButton>
+              )}
             </div>
           </div>
         </center>
