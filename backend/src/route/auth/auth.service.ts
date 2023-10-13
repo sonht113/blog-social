@@ -54,6 +54,9 @@ export class AuthService {
     }
 
     const password = await bcrypt.hash(signupUserInput.password, saltRounds);
-    return this.userService.createUser({ ...signupUserInput, password });
+    return this.userService.createUser(
+      { ...signupUserInput, password },
+      'signup',
+    );
   }
 }

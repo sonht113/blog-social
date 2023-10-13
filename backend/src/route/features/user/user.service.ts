@@ -64,15 +64,44 @@ export class UserService {
     return this.userRepository.findOne({ username });
   }
 
-  async createUser(body: CreateUserType): Promise<User> {
-    const password = await bcrypt.hash(body.password, 10);
-    const user = this.userRepository.create({
-      id: uuid(),
-      password,
-      ...body,
+  async createUser(
+    body: CreateUserType,
+    type?: 'signup' | undefined,
+  ): Promise<User> {
+    const pass = await bcrypt.hash(body.password, 10);
+
+    const userPhoneExist = await this.userRepository.findOne({
+      phoneNumber: body.phoneNumber,
     });
 
-    this.userRepository.persistAndFlush(user);
+    const usernameExist = await this.userRepository.findOne({
+      username: body.username,
+    });
+
+    const userEmailExist = await this.userRepository.findOne({
+      email: body.email,
+    });
+
+    if (userPhoneExist) {
+      throw new Error('The phone number is already used');
+    }
+
+    if (usernameExist) {
+      throw new Error('The username is already used');
+    }
+
+    if (userEmailExist) {
+      throw new Error('The email is already used');
+    }
+
+    const user = this.userRepository.create({
+      id: uuid(),
+      ...body,
+      password: type ? body.password : pass,
+    });
+
+    void this.userRepository.persistAndFlush(user);
+
     return user;
   }
 

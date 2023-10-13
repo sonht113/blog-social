@@ -26,8 +26,8 @@ export class CreateUserType {
   @Field()
   email: string;
 
-  @IsNotEmpty()
-  @Field()
+  @IsOptional()
+  @Field(() => String, { defaultValue: '' })
   dayOfBirth: string;
 
   @IsOptional()

@@ -148,7 +148,7 @@ input CreateUserType {
   password: String!
   role: Float! = 2
   email: String!
-  dayOfBirth: String!
+  dayOfBirth: String! = ""
   avatar: String! = ""
   phoneNumber: String!
   desc: String! = ""
@@ -161,7 +161,7 @@ input UpdateUserType {
   password: String
   role: Float = 2
   email: String
-  dayOfBirth: String
+  dayOfBirth: String = ""
   avatar: String = ""
   phoneNumber: String
   desc: String = ""
@@ -183,9 +183,9 @@ input CreateBlogType {
 }
 
 input UpdateBlogType {
-  id: ID = "288bc45a-27cd-425f-8fea-c02d28e15f07"
-  createdAt: DateTime = "2023-10-12T08:22:01.681Z"
-  updatedAt: DateTime = "2023-10-12T08:22:01.681Z"
+  id: ID = "1342db8c-55d7-463e-9b10-6f428787b396"
+  createdAt: DateTime = "2023-10-13T10:09:10.725Z"
+  updatedAt: DateTime = "2023-10-13T10:09:10.725Z"
   title: String
   shortDesc: String = ""
   content: String
@@ -216,7 +216,7 @@ input SignUpUserInputType {
   password: String!
   role: Float! = 2
   email: String!
-  dayOfBirth: String!
+  dayOfBirth: String! = ""
   avatar: String! = ""
   phoneNumber: String!
   desc: String! = ""
