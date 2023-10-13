@@ -4,15 +4,19 @@ import { InputAdornment, OutlinedInput } from '@mui/material';
 import { FiSearch } from 'react-icons/fi';
 
 import { InfoProfile, MenuItem, MenuMobile, ThemeButton } from './components';
-import { HEADER_LIST_ITEM, HEADER_LOGO_TEXT } from './constant';
+import { HEADER_LOGO_TEXT } from './constant';
 import { CommonButton } from '@/components';
 import { LOGIN_PATH } from '@/data';
 import { useAuthStore } from '@/features/auth';
+import { useQueryCategories } from '@/hooks';
 // import { useActiveMenu } from '@/hooks';
 
 const HeaderComponent: FC = () => {
   // const { checkActive } = useActiveMenu();
   // const isActive = checkActive(['/computer', '/technology']);
+
+  const { data } = useQueryCategories();
+
   const token = useAuthStore((state) => state.token);
   return (
     <header className="bg-secondary block fixed w-full inset-x-0 z-30 h-16 shadow-md">
@@ -31,8 +35,8 @@ const HeaderComponent: FC = () => {
           <div className="w-full justify-around flex items-center py-2.5 xl:w-4.5/5">
             <MenuMobile className="block xl:hidden" />
             <div className="hidden xl:block">
-              {HEADER_LIST_ITEM.map((el) => (
-                <MenuItem text={el.text} path={el.path} key={el.id} />
+              {data?.getCategories.map((el) => (
+                <MenuItem text={el.name} path={el.link} key={el.id} />
               ))}
             </div>
             <div className="flex justify-center items-center xl:gap-5 ">
