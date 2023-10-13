@@ -15,12 +15,14 @@ import { Blog } from './blog.entity';
 import { UpdateBlogType } from './types/update-blog';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'route/auth/jwt-auth.guard';
+import { CategoryService } from '../category/category.service';
 
 @Resolver(() => BlogType)
 export class BlogResolver {
   constructor(
     private blogService: BlogService,
     private userService: UserService,
+    private categoryService: CategoryService,
   ) {}
 
   @Query(() => [BlogType])
@@ -46,6 +48,11 @@ export class BlogResolver {
   }
 
   @Mutation(() => ResponseMutationBlogType)
+  likeBlog(@Args('id') id: string, @Args('idUser') idUser: string) {
+    return this.blogService.likeBlog(id, idUser);
+  }
+
+  @Mutation(() => ResponseMutationBlogType)
   @UseGuards(JwtAuthGuard)
   deleteBlog(@Args('id') id: string) {
     return this.blogService.deleteBlog(id);
@@ -54,5 +61,10 @@ export class BlogResolver {
   @ResolveField()
   async creator(@Parent() blog: Blog) {
     return this.userService.getUserById(blog.creator);
+  }
+
+  @ResolveField()
+  async category(@Parent() blog: Blog) {
+    return this.categoryService.getCategoryById(blog.category);
   }
 }

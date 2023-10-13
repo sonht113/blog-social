@@ -7,6 +7,9 @@ export class Blog extends Base<Blog> {
   title!: string;
 
   @Property()
+  category!: string;
+
+  @Property()
   shortDesc!: string;
 
   @Property()
@@ -19,5 +22,5 @@ export class Blog extends Base<Blog> {
   creator!: string;
 
   @Property()
-  like!: number;
+  like!: string[];
 }

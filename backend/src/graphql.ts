@@ -51,11 +51,12 @@ export interface CreateCategoryType {
 
 export interface CreateBlogType {
     title: string;
+    category: string;
     shortDesc?: Nullable<string>;
     content: string;
     thumbnail: string;
     creator: string;
-    like?: Nullable<number>;
+    like?: Nullable<string[]>;
 }
 
 export interface UpdateBlogType {
@@ -63,10 +64,11 @@ export interface UpdateBlogType {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     title?: Nullable<string>;
+    category?: Nullable<string>;
     shortDesc?: Nullable<string>;
     content?: Nullable<string>;
     thumbnail?: Nullable<string>;
-    like?: Nullable<number>;
+    like?: Nullable<string[]>;
 }
 
 export interface CreateCommentType {
@@ -158,11 +160,12 @@ export interface BlogType {
     createdAt: DateTime;
     updatedAt: DateTime;
     title: string;
+    category: CategoryType;
     shortDesc: string;
     content: string;
     thumbnail: string;
     creator: UserType;
-    like: number;
+    like: string[];
 }
 
 export interface ResponseMutationBlogType {
@@ -214,6 +217,7 @@ export interface IMutation {
     deleteCategory(id: string): ResponseMutationType | Promise<ResponseMutationType>;
     createBlog(body: CreateBlogType): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
     updateBlog(id: string, body: UpdateBlogType): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
+    likeBlog(id: string, idUser: string): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
     deleteBlog(id: string): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
     createComment(body: CreateCommentType): ResponseMutationCommentType | Promise<ResponseMutationCommentType>;
     updateComment(id: string, body: UpdateCommentType): ResponseMutationCommentType | Promise<ResponseMutationCommentType>;

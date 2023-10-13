@@ -54,6 +54,29 @@ export class BlogService {
     };
   }
 
+  async likeBlog(id: string, idUser: string): Promise<ResponseMutation<Blog>> {
+    const blog = await this.blogRepository.findOne(id);
+
+    if (!blog) throw new Error('Blog not found');
+
+    const index = blog.like.findIndex((item) => item === idUser);
+
+    const isLiked = index > -1;
+
+    if (isLiked) {
+      blog.like.splice(index, 1);
+    } else {
+      blog.like.push(idUser);
+    }
+
+    await this.blogRepository.flush();
+
+    return {
+      status: 'success',
+      data: blog,
+    };
+  }
+
   async deleteBlog(id: string): Promise<ResponseMutation<Blog>> {
     const blog = await this.blogRepository.findOne(id);
 

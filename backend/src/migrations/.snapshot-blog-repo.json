@@ -44,6 +44,15 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "category": {
+          "name": "category",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
         "short_desc": {
           "name": "short_desc",
           "type": "varchar(255)",
@@ -82,12 +91,12 @@
         },
         "like": {
           "name": "like",
-          "type": "int",
+          "type": "text[]",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "array"
         }
       },
       "name": "blog",

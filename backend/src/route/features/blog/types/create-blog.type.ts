@@ -8,6 +8,11 @@ export class CreateBlogType extends Base<CreateBlogType> {
   @Field()
   title: string;
 
+  @IsNotEmpty()
+  @IsUUID(4)
+  @Field()
+  category: string;
+
   @IsOptional()
   @Field({ nullable: true, defaultValue: '' })
   shortDesc?: string;
@@ -26,6 +31,6 @@ export class CreateBlogType extends Base<CreateBlogType> {
   creator: string;
 
   @IsOptional()
-  @Field({ defaultValue: 0, nullable: true })
-  like: number;
+  @Field(() => [String], { defaultValue: [], nullable: true })
+  like: string[];
 }

@@ -17,6 +17,10 @@ export class CategoryService {
     return this.categoryRepository.findAll();
   }
 
+  async getCategoryById(id: string): Promise<Category> {
+    return this.categoryRepository.findOne(id);
+  }
+
   async createCategory(
     body: CreateCategoryType,
   ): Promise<ResponseMutation<Category>> {
