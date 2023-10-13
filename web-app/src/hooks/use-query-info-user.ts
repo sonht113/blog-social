@@ -1,15 +1,7 @@
-import { OperationVariables, gql, useQuery } from '@apollo/client';
+import { OperationVariables, useQuery } from '@apollo/client';
 
 import { DataUser } from '@/features/user';
-
-const GET_INFO = gql`
-  query {
-    getInfo {
-      fullname
-      avatar
-    }
-  }
-`;
+import { GET_INFO } from '@/gql';
 
 export const useQueryInfoUser = () =>
   useQuery<{ getInfo: DataUser }, OperationVariables>(GET_INFO);
