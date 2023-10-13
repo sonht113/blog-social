@@ -1,45 +1,48 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@tanstack/react-query';
-import request from 'graphql-request';
+import { Grid } from '@mui/material';
 
-import { useThemeStore } from '@/hooks';
-
-const QUERY_USERS = gql(`
-    query getUsers($query: OptionsQueryType!){
-        getUsers(query: $query){
-          page
-          limit
-          totalPage
-          data {
-            fullname
-            email
-          }
-        }
-    }
-  `);
+import { BlogCard } from '@/components';
 
 const Home = () => {
-  const theme = useThemeStore((state) => state.theme);
-  const setTheme = useThemeStore((state) => state.setTheme);
-
-  const { data } = useQuery({
-    queryKey: ['users'],
-    queryFn: async () =>
-      request('http://localhost:3000/graphql', QUERY_USERS, { query: {} }),
-  });
-
   return (
     <div>
-      <span>Home</span>
-      <button
-        onClick={() => {
-          theme === 'dark'
-            ? setTheme({ theme: 'light' })
-            : setTheme({ theme: 'dark' });
-        }}
-      >
-        Change theme
-      </button>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={3}>
+          <BlogCard
+            position="vertical"
+            title="test"
+            time="test"
+            image="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
+            content="test"
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <BlogCard
+            position="vertical"
+            title="test"
+            time="test"
+            image="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
+            content="test"
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <BlogCard
+            position="vertical"
+            title="test"
+            time="test"
+            image="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
+            content="test"
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <BlogCard
+            position="vertical"
+            title="test"
+            time="test"
+            image="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
+            content="test"
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };
