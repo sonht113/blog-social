@@ -3,6 +3,7 @@ import { FC, useMemo } from 'react';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ChatIcon from '@mui/icons-material/Chat';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import {
   Card,
   CardMedia,
@@ -16,31 +17,33 @@ import {
 import { CommonButton } from '../common/button/common-button';
 
 type Props = {
-  position?: 'vertical' | 'inside' | 'horizontal';
+  position?: 'vertical' | 'above' | 'horizontal';
   className?: string;
-  image: string;
+  thumbnail: string;
   title: string;
-  content: string;
+  shortDesc: string;
   time: string;
   comments?: number;
+  like?: number;
 };
 
 type CardActionProps = Partial<Pick<Props, 'className' | 'position'>>;
 
 export const BlogCard: FC<Props> = ({
   position = 'vertical',
-  image,
+  thumbnail,
   title,
-  content,
+  shortDesc,
   time,
   comments = 0,
+  like,
 }) => {
   const cardMediaStyle = useMemo(
     () => ({
       vertical: {
         height: 260,
       },
-      inside: {
+      above: {
         height: 340,
       },
       horizontal: { height: 200, width: 200 },
@@ -60,13 +63,27 @@ export const BlogCard: FC<Props> = ({
           <CalendarMonthIcon />
           <Typography>{time}</Typography>
         </Box>
-        <Box display="flex" alignItems="center" gap={1}>
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={1}
+          className="cursor-pointer"
+        >
           <ChatIcon />
           <Typography>{comments}</Typography>
         </Box>
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={1}
+          className="cursor-pointer"
+        >
+          <ThumbUpIcon />
+          <Typography>{like}</Typography>
+        </Box>
       </Box>
     ),
-    [comments, time, position],
+    [comments, time, position, like],
   );
 
   return (
@@ -75,29 +92,38 @@ export const BlogCard: FC<Props> = ({
         <Box display={position === 'horizontal' ? 'flex' : ''}>
           <CardMedia
             sx={{ ...cardMediaStyle[position] }}
-            image={image}
+            image={thumbnail}
             title="green iguana"
-            className={position === 'inside' ? 'opacity-30' : ''}
+            className={position === 'above' ? 'opacity-30' : ''}
           />
           <CardContent
             className={
-              position === 'inside'
+              position === 'above'
                 ? 'absolute bottom-0'
                 : ' flex flex-col justify-between !py-0'
             }
           >
-            {position === 'inside' && <CardAction className="p-0" />}
+            {position === 'above' && <CardAction className="p-0" />}
             <Box>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                className="text-clip line-clamp-1"
+              >
                 {title}
               </Typography>
-              <Typography variant="body1" color="text.secondary">
-                {content}
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                className="text-clip line-clamp-2 mb-2"
+              >
+                {shortDesc}
               </Typography>
             </Box>
             {position !== 'vertical' && cardInfo}
           </CardContent>
-          {position !== 'inside' && (
+          {position !== 'above' && (
             <CardAction
               className={`absolute ${
                 position === 'vertical'
@@ -124,11 +150,6 @@ const CardAction: FC<CardActionProps> = ({ className, position }) => {
           <FolderCopyIcon />
         </Button>
       )}
-      {/* 
-      <Button size="small" color="error" variant="contained">
-        Learn More
-      </Button> */}
-
       <CommonButton
         actionBtn="redirect"
         href="/login"
