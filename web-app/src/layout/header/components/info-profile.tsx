@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 import { PROFILE_LIST_ITEM } from '../constant';
 import { useLogoutMutation } from '@/features/auth';
+import { useQueryInfoUser } from '@/hooks';
 
 const style = {
   width: '100%',
@@ -28,6 +29,7 @@ const InfoProfile = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const { data } = useQueryInfoUser();
   const { logout } = useLogoutMutation();
 
   const handleLogout = () => {
@@ -45,10 +47,7 @@ const InfoProfile = () => {
   return (
     <>
       <Button aria-describedby={id} onClick={handleClick}>
-        <Avatar
-          alt="Cindy Baker"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3Nji70n0nKnujZh_As_Klbd6AKI9a9vl4Ag&usqp=CAU"
-        />
+        <Avatar alt={data?.getInfo.fullname} src={data?.getInfo.avatar} />
       </Button>
       <Popover
         id={id}
