@@ -11,3 +11,11 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const SIGN_UP = gql`
+  mutation Signup($body: SignUpUserInputType!) {
+    signup(body: $body) {
+      username
+    }
+  }
+`;

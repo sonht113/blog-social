@@ -1,4 +1,7 @@
+import { ReactElement } from 'react';
+
 import { QueryKey, UseQueryOptions } from '@tanstack/react-query';
+import { Control, ControllerRenderProps, FieldValues } from 'react-hook-form';
 
 export type PageParams = {
   page?: number;
@@ -24,3 +27,10 @@ export type RequiredKeys<T, K extends keyof T> = Required<
   Pick<T, Extract<keyof T, K>>
 > &
   Omit<T, Extract<keyof T, K>>;
+
+export type DataFieldInputType<T extends FieldValues> = {
+  isRequired?: boolean;
+  control: Control<T, unknown>;
+  name: string;
+  element: ({ field }: { field: ControllerRenderProps }) => ReactElement;
+};
