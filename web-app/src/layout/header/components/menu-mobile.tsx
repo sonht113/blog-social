@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Box, Button, Drawer, List } from '@mui/material';
 
 import MenuItem from './menu-items';
-import { HEADER_LIST_ITEM } from '../constant';
+import { useQueryCategories } from '@/hooks';
 
 type Props = {
   className?: string;
@@ -16,6 +16,8 @@ const MenuMobile: FC<Props> = ({ className }) => {
   const [state, setState] = React.useState({
     left: false,
   });
+
+  const { data } = useQueryCategories();
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -38,8 +40,8 @@ const MenuMobile: FC<Props> = ({ className }) => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List className="flex flex-col gap-5 justify-start">
-        {HEADER_LIST_ITEM.map((el) => (
-          <MenuItem key={el.id} text={el.text} path={el.path} />
+        {data?.getCategories.map((el) => (
+          <MenuItem key={el.id} text={el.name} path={el.link} />
         ))}
       </List>
     </Box>
@@ -50,7 +52,7 @@ const MenuMobile: FC<Props> = ({ className }) => {
       {(['left'] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>
-            <MenuIcon />
+            <MenuIcon color="action" />
           </Button>
           <Drawer
             anchor={anchor}
