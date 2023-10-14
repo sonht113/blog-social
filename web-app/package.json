@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
+    "@ckeditor/ckeditor5-react": "^6.1.0",
     "@emotion/babel-plugin": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -55,7 +56,9 @@
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.35.7",
     "@types/styled-components": "^5.1.27",
+    "apollo-upload-client": "^17.0.0",
     "axios": "^1.5.0",
+    "ckeditor5-luongthanhnhi-custom-build": "^2.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
@@ -80,6 +83,7 @@
   "devDependencies": {
     "@graphql-codegen/introspection": "^4.0.0",
     "@optimize-lodash/rollup-plugin": "^4.0.4",
+    "@types/apollo-upload-client": "^17.0.3",
     "@types/lodash": "^4.14.198",
     "@types/node": "^20.6.2",
     "@types/react": "^18.2.15",
