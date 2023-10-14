@@ -9,11 +9,10 @@ import { CommonButton } from '@/components';
 import { LOGIN_PATH } from '@/data';
 import { useAuthStore } from '@/features/auth';
 import { useQueryCategories } from '@/hooks';
-// import { useActiveMenu } from '@/hooks';
+import { useActiveMenu } from '@/hooks';
 
 const HeaderComponent: FC = () => {
-  // const { checkActive } = useActiveMenu();
-  // const isActive = checkActive(['/computer', '/technology']);
+  const { checkActive } = useActiveMenu();
 
   const { data } = useQueryCategories();
 
@@ -34,9 +33,14 @@ const HeaderComponent: FC = () => {
         <center>
           <div className="w-full justify-around flex items-center py-2.5 xl:w-4.5/5">
             <MenuMobile className="block xl:hidden" />
-            <div className="hidden xl:block">
+            <div className="hidden xl:flex items-center gap-4">
               {data?.getCategories.map((el) => (
-                <MenuItem text={el.name} path={el.link} key={el.id} />
+                <MenuItem
+                  text={el.name}
+                  path={el.link}
+                  key={el.id}
+                  isActive={checkActive(el.link)}
+                />
               ))}
             </div>
             <div className="flex justify-center items-center xl:gap-5 ">
