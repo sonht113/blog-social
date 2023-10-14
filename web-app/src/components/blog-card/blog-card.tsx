@@ -56,7 +56,7 @@ export const BlogCard: FC<Props> = ({
       above: {
         height: 280,
       },
-      horizontal: { height: 150, width: 280 },
+      horizontal: { height: 150, width: 200 },
     }),
     [],
   );
@@ -131,7 +131,7 @@ export const BlogCard: FC<Props> = ({
           className={
             position === 'above'
               ? 'absolute bottom-0'
-              : 'w-[60%] flex flex-col justify-between !py-0'
+              : 'w-[75%] flex flex-col justify-between !py-0'
           }
         >
           {position === 'above' && <CardAction className="p-0" />}
