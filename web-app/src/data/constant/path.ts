@@ -9,4 +9,4 @@ export const SOFTWARE_PATH = '/software';
 export const PROFILE_PATH = '/my-profile';
 export const CREATE_BLOG_PATH = '/create-blog';
 
-export const BLOG_DETAIL = '/blog/:id';
+export const BLOG_DETAIL_PATH = '/blog/:id';
