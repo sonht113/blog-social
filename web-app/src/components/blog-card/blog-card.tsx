@@ -54,9 +54,9 @@ export const BlogCard: FC<Props> = ({
         height: 260,
       },
       above: {
-        height: 340,
+        height: 280,
       },
-      horizontal: { height: 200, width: 300 },
+      horizontal: { height: 150, width: 200 },
     }),
     [],
   );
@@ -131,7 +131,7 @@ export const BlogCard: FC<Props> = ({
           className={
             position === 'above'
               ? 'absolute bottom-0'
-              : 'w-[60%] flex flex-col justify-between !py-0'
+              : 'w-[75%] flex flex-col justify-between !py-0'
           }
         >
           {position === 'above' && <CardAction className="p-0" />}
@@ -168,7 +168,7 @@ export const BlogCard: FC<Props> = ({
 
 const CardAction: FC<CardActionProps> = ({ className, position }) => {
   return (
-    <CardActions className={`${className}`}>
+    <CardActions className={`!pl-0 ${className}`}>
       {position === 'horizontal' ? (
         ''
       ) : (
