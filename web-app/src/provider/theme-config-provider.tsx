@@ -30,6 +30,9 @@ function LayoutConfigProvider({ children }: Props) {
   );
 
   useEffect(() => {
+    const root = window.document.documentElement;
+
+    root.classList.remove('light', 'dark');
     setThemeState(theme === 'dark');
 
     // watch system theme change
@@ -38,6 +41,8 @@ function LayoutConfigProvider({ children }: Props) {
 
       mql.addEventListener('change', matchMode);
     }
+
+    root.classList.add(theme);
   }, [matchMode, setThemeState, theme]);
 
   return (
