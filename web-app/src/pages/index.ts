@@ -8,4 +8,17 @@ const Social = lazy(() => import('@/pages/social'));
 const Computer = lazy(() => import('@/pages/computer'));
 const Software = lazy(() => import('@/pages/software'));
 
-export { Home, Users, Login, SignUp, Social, Computer, Software };
+const AddBlog = lazy(() => import('@/pages/blog/add'));
+const BlogDetail = lazy(() => import('@/pages/blog/[id]'));
+
+export {
+  Home,
+  Users,
+  Login,
+  SignUp,
+  Social,
+  Computer,
+  Software,
+  AddBlog,
+  BlogDetail,
+};
