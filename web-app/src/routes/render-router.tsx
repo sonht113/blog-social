@@ -2,10 +2,16 @@ import { FC, lazy } from 'react';
 
 import { Navigate, useRoutes } from 'react-router-dom';
 
-import { LOGIN_PATH, SIGN_UP_PATH } from '@/data';
+import PrivateRoute from './private-route';
+import {
+  BLOG_DETAIL_PATH,
+  CREATE_BLOG_PATH,
+  LOGIN_PATH,
+  SIGN_UP_PATH,
+} from '@/data';
 import { routeList } from '@/data/constant/navs';
 import LayoutComponent from '@/layout';
-import { Login, SignUp } from '@/pages';
+import { AddBlog, BlogDetail, Login, SignUp } from '@/pages';
 
 const NotFound = lazy(() => import('@/pages/not-found'));
 
@@ -30,6 +36,18 @@ const routes = [
       {
         path: '*',
         element: <NotFound />,
+      },
+      {
+        path: CREATE_BLOG_PATH,
+        element: (
+          <PrivateRoute>
+            <AddBlog />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: BLOG_DETAIL_PATH,
+        element: <BlogDetail />,
       },
     ],
   },
