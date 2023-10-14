@@ -54,9 +54,9 @@ export const BlogCard: FC<Props> = ({
         height: 260,
       },
       above: {
-        height: 340,
+        height: 280,
       },
-      horizontal: { height: 200, width: 300 },
+      horizontal: { height: 150, width: 280 },
     }),
     [],
   );
@@ -168,7 +168,7 @@ export const BlogCard: FC<Props> = ({
 
 const CardAction: FC<CardActionProps> = ({ className, position }) => {
   return (
-    <CardActions className={`${className}`}>
+    <CardActions className={`!pl-0 ${className}`}>
       {position === 'horizontal' ? (
         ''
       ) : (
