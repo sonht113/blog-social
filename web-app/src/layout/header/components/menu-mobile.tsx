@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Box, Button, Drawer, List } from '@mui/material';
 
 import MenuItem from './menu-items';
-import { useQueryCategories } from '@/hooks';
+import { useActiveMenu, useQueryCategories } from '@/hooks';
 
 type Props = {
   className?: string;
@@ -16,6 +16,8 @@ const MenuMobile: FC<Props> = ({ className }) => {
   const [state, setState] = React.useState({
     left: false,
   });
+
+  const { checkActive } = useActiveMenu();
 
   const { data } = useQueryCategories();
 
@@ -41,7 +43,12 @@ const MenuMobile: FC<Props> = ({ className }) => {
     >
       <List className="flex flex-col gap-5 justify-start">
         {data?.getCategories.map((el) => (
-          <MenuItem key={el.id} text={el.name} path={el.link} />
+          <MenuItem
+            key={el.id}
+            text={el.name}
+            path={el.link}
+            isActive={checkActive(el.link)}
+          />
         ))}
       </List>
     </Box>
