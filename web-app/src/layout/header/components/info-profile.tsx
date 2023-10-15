@@ -64,7 +64,17 @@ const InfoProfile = () => {
             const Component: ElementType = el.path ? Link : Fragment;
 
             return (
-              <Component {...(el.path ? { to: el.path } : {})} key={el.id}>
+              <Component
+                {...(el.path
+                  ? {
+                      to:
+                        el.id === 1
+                          ? el.path + `/${data?.getInfo.id}`
+                          : el.path,
+                    }
+                  : {})}
+                key={el.id}
+              >
                 <ListItem
                   className="cursor-pointer"
                   {...(el.path ? {} : { onClick: handleLogout })}
