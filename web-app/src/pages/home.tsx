@@ -100,7 +100,7 @@ const Home = () => {
         </Grid>
         <Grid item lg={6}>
           <Grid item lg={12}>
-            <SectionTag sectionTagName="product" />
+            <SectionTag sectionTagName="Social" />
           </Grid>
           <Grid container gap={2}>
             {data.map((el) => (
