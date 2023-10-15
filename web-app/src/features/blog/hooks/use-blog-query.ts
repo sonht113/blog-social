@@ -3,10 +3,20 @@ import {
   DefaultContext,
   OperationVariables,
   useMutation,
+  useQuery,
 } from '@apollo/client';
 
-import { CREATE_BLOG } from '../graphql';
-import { DataBlog } from '../services/types';
+import { CREATE_BLOG, GET_BLOGS } from '../graphql';
+import {
+  DataBlog,
+  QueryOption,
+  ResPaginationBlogData,
+} from '../services/types';
+
+export const useGetBlogsQuery = (query: QueryOption) =>
+  useQuery<{ getBlogs: ResPaginationBlogData }, OperationVariables>(GET_BLOGS, {
+    variables: { query: query },
+  });
 
 export const useCreateBlogMutation = () =>
   useMutation<
