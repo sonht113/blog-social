@@ -7,11 +7,12 @@ import {
   BLOG_DETAIL_PATH,
   CREATE_BLOG_PATH,
   LOGIN_PATH,
+  PROFILE_PATH,
   SIGN_UP_PATH,
 } from '@/data';
 import { routeList } from '@/data/constant/navs';
 import LayoutComponent from '@/layout';
-import { AddBlog, BlogDetail, Login, SignUp } from '@/pages';
+import { AddBlog, BlogDetail, Login, Profile, SignUp } from '@/pages';
 
 const NotFound = lazy(() => import('@/pages/not-found'));
 
@@ -36,6 +37,14 @@ const routes = [
       {
         path: '*',
         element: <NotFound />,
+      },
+      {
+        path: PROFILE_PATH,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: CREATE_BLOG_PATH,
