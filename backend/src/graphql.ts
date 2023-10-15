@@ -18,6 +18,13 @@ export interface OptionsQueryType {
     address: string;
 }
 
+export interface QueryOptions {
+    page: number;
+    limit: number;
+    category: string;
+    creator: string;
+}
+
 export interface CreateUserType {
     fullname: string;
     username: string;
@@ -173,6 +180,13 @@ export interface ResponseMutationBlogType {
     data: BlogType;
 }
 
+export interface ResPaginationBlogType {
+    page: number;
+    limit: number;
+    totalPage: number;
+    data: BlogType[];
+}
+
 export interface CommentType {
     id: string;
     createdAt: DateTime;
@@ -203,7 +217,7 @@ export interface IQuery {
     getUserByUserName(username: string): UserDataResponse | Promise<UserDataResponse>;
     getInfo(): UserDataResponse | Promise<UserDataResponse>;
     getCategories(): CategoryType[] | Promise<CategoryType[]>;
-    getBlogs(): BlogType[] | Promise<BlogType[]>;
+    getBlogs(query: QueryOptions): ResPaginationBlogType | Promise<ResPaginationBlogType>;
     getBlogById(id: string): BlogType | Promise<BlogType>;
     getComments(idBlog: string): CommentType[] | Promise<CommentType[]>;
 }

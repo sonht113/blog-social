@@ -4,9 +4,10 @@ import { v4 as uuid } from 'uuid';
 import { Blog } from './blog.entity';
 import { EntityRepository } from '@mikro-orm/core';
 import { CreateBlogType } from './types/create-blog.type';
-import { ResponseMutation } from 'ts/types';
+import { Pagination, QueryOptions, ResponseMutation } from 'ts/types';
 import { UpdateBlogType } from './types/update-blog';
 import { wrap } from '@mikro-orm/core';
+import { checkValueEmpty } from 'utils/common';
 
 @Injectable()
 export class BlogService {
@@ -14,8 +15,32 @@ export class BlogService {
     @InjectRepository(Blog) private blogRepository: EntityRepository<Blog>,
   ) {}
 
-  async getBlogs(): Promise<Blog[]> {
-    return this.blogRepository.findAll();
+  async getBlogs(
+    query: QueryOptions<Pick<Blog, 'category' | 'creator'>>,
+  ): Promise<Pagination<Blog>> {
+    const { category, creator, page, limit } = query;
+    const q = { category, creator };
+    const take = limit || 10;
+    const p = page || 1;
+    const skip = p === 1 ? 0 : p * take;
+    if (checkValueEmpty(category)) {
+      delete q['category'];
+    }
+    if (checkValueEmpty(creator)) {
+      delete q['creator'];
+    }
+
+    const [result, total] = await this.blogRepository.findAndCount(q, {
+      offset: skip,
+      limit: take,
+    });
+
+    return {
+      page: page,
+      limit: limit,
+      totalPage: total,
+      data: result,
+    };
   }
 
   async getBlogById(id: string): Promise<Blog> {

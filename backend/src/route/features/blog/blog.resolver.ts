@@ -7,7 +7,11 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { BlogService } from './blog.service';
-import { ResponseMutationBlogType } from './types/common.type';
+import {
+  QueryOptions,
+  ResPaginationBlogType,
+  ResponseMutationBlogType,
+} from './types/common.type';
 import { CreateBlogType } from './types/create-blog.type';
 import { BlogType } from './types/blog.type';
 import { UserService } from '../user/user.service';
@@ -25,9 +29,9 @@ export class BlogResolver {
     private categoryService: CategoryService,
   ) {}
 
-  @Query(() => [BlogType])
-  getBlogs() {
-    return this.blogService.getBlogs();
+  @Query(() => ResPaginationBlogType)
+  getBlogs(@Args('query') query: QueryOptions) {
+    return this.blogService.getBlogs(query);
   }
 
   @Query(() => BlogType)

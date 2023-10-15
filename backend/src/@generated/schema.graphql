@@ -79,6 +79,13 @@ type ResponseMutationBlogType {
   data: BlogType!
 }
 
+type ResPaginationBlogType {
+  page: Float!
+  limit: Float!
+  totalPage: Float!
+  data: [BlogType!]!
+}
+
 type CommentType {
   id: ID!
   createdAt: DateTime!
@@ -109,7 +116,7 @@ type Query {
   getUserByUserName(username: String!): UserDataResponse!
   getInfo: UserDataResponse!
   getCategories: [CategoryType!]!
-  getBlogs: [BlogType!]!
+  getBlogs(query: QueryOptions!): ResPaginationBlogType!
   getBlogById(id: String!): BlogType!
   getComments(idBlog: String!): [CommentType!]!
 }
@@ -122,6 +129,13 @@ input OptionsQueryType {
   email: String! = ""
   phoneNumber: String! = ""
   address: String! = ""
+}
+
+input QueryOptions {
+  page: Float! = 1
+  limit: Float! = 10
+  category: String! = ""
+  creator: String! = ""
 }
 
 type Mutation {
@@ -186,9 +200,9 @@ input CreateBlogType {
 }
 
 input UpdateBlogType {
-  id: ID = "c4411d96-b755-4452-a6a0-886842601b27"
-  createdAt: DateTime = "2023-10-13T15:16:51.939Z"
-  updatedAt: DateTime = "2023-10-13T15:16:51.939Z"
+  id: ID = "5c187bea-5e01-4be2-9738-b4bb4068aec4"
+  createdAt: DateTime = "2023-10-15T09:21:04.248Z"
+  updatedAt: DateTime = "2023-10-15T09:21:04.248Z"
   title: String
   category: String
   shortDesc: String = ""
