@@ -2,6 +2,8 @@ import { lazy } from 'react';
 
 const Home = lazy(() => import('@/pages/home'));
 const Users = lazy(() => import('@/pages/users'));
+const Profile = lazy(() => import('@/pages/users/[id]'));
+
 const Login = lazy(() => import('@/pages/login'));
 const SignUp = lazy(() => import('@/pages/sign-up'));
 const Social = lazy(() => import('@/pages/social'));
@@ -14,6 +16,7 @@ const BlogDetail = lazy(() => import('@/pages/blog/[id]'));
 export {
   Home,
   Users,
+  Profile,
   Login,
   SignUp,
   Social,
