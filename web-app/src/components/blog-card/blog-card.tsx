@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { CommonButton } from '../common/button/common-button';
 
 type Props = {
+  id?: string;
   position?: 'vertical' | 'above' | 'horizontal';
   className?: string;
   thumbnail: string;
@@ -30,9 +31,10 @@ type Props = {
   isLiked?: boolean;
 };
 
-type CardActionProps = Partial<Pick<Props, 'className' | 'position'>>;
+type CardActionProps = Partial<Pick<Props, 'className' | 'position' | 'id'>>;
 
 export const BlogCard: FC<Props> = ({
+  id,
   position = 'vertical',
   thumbnail,
   title,
@@ -134,7 +136,7 @@ export const BlogCard: FC<Props> = ({
               : 'w-[75%] flex flex-col justify-between !py-0'
           }
         >
-          {position === 'above' && <CardAction className="p-0" />}
+          {position === 'above' && <CardAction id={id} className="p-0" />}
           <Box>
             <Typography
               gutterBottom
@@ -152,6 +154,7 @@ export const BlogCard: FC<Props> = ({
         </CardContent>
         {position !== 'above' && (
           <CardAction
+            id={id}
             className={`absolute ${
               position === 'vertical'
                 ? 'top-40 translate-y-full'
@@ -166,7 +169,7 @@ export const BlogCard: FC<Props> = ({
   );
 };
 
-const CardAction: FC<CardActionProps> = ({ className, position }) => {
+const CardAction: FC<CardActionProps> = ({ className, position, id }) => {
   return (
     <CardActions className={`!pl-0 ${className}`}>
       {position === 'horizontal' ? (
@@ -178,12 +181,12 @@ const CardAction: FC<CardActionProps> = ({ className, position }) => {
       )}
       <CommonButton
         actionBtn="redirect"
-        href="/login"
+        href={`/blog/${id}`}
         size="small"
         color="error"
         variant="contained"
       >
-        Learn More
+        See more
       </CommonButton>
     </CardActions>
   );
