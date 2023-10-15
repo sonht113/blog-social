@@ -218,6 +218,7 @@ export interface IQuery {
     getInfo(): UserDataResponse | Promise<UserDataResponse>;
     getCategories(): CategoryType[] | Promise<CategoryType[]>;
     getBlogs(query: QueryOptions): ResPaginationBlogType | Promise<ResPaginationBlogType>;
+    getPopularBlogs(): BlogType[] | Promise<BlogType[]>;
     getBlogById(id: string): BlogType | Promise<BlogType>;
     getComments(idBlog: string): CommentType[] | Promise<CommentType[]>;
 }

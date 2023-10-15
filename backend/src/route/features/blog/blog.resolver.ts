@@ -34,6 +34,11 @@ export class BlogResolver {
     return this.blogService.getBlogs(query);
   }
 
+  @Query(() => [BlogType])
+  getPopularBlogs() {
+    return this.blogService.getPopularBlogs();
+  }
+
   @Query(() => BlogType)
   getBlogById(@Args('id') id: string) {
     return this.blogService.getBlogById(id);

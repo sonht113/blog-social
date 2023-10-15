@@ -43,6 +43,17 @@ export class BlogService {
     };
   }
 
+  async getPopularBlogs(): Promise<Blog[]> {
+    const blogs = await this.blogRepository.findAll();
+
+    const popularBlog = blogs
+      .filter((blog) => blog.like.length > 3)
+      .sort((a, b) => b.like.length - a.like.length)
+      .slice(0, 5);
+
+    return popularBlog;
+  }
+
   async getBlogById(id: string): Promise<Blog> {
     return this.blogRepository.findOneOrFail(id);
   }
