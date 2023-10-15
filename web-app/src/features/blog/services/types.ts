@@ -20,3 +20,17 @@ export type InputBlog = Partial<
     creator: string;
   }
 >;
+
+export type QueryOption = Partial<{
+  page: number;
+  limit: number;
+  category: string;
+  creator: string;
+}>;
+
+export type ResPaginationBlogData = {
+  page: number;
+  limit: number;
+  totalPage: number;
+  data: DataBlog[];
+};
