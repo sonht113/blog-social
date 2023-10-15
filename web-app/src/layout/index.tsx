@@ -4,6 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router-dom';
 
 import fallbackRender from './error-boundary/fallbackRender';
+import FooterComponent from './footer';
 import HeaderComponent from './header';
 
 const LayoutComponent = () => {
@@ -23,6 +24,7 @@ const LayoutComponent = () => {
           </Suspense>
         </ErrorBoundary>
       </div>
+      <FooterComponent />
     </div>
   );
 };
