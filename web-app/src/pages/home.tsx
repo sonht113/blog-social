@@ -2,6 +2,8 @@ import { Box, Grid } from '@mui/material';
 
 import { BlogCard } from '@/components';
 import { SectionTag } from '@/components';
+import { useGetPopularBlogsQuery } from '@/features/blog';
+import { formatDateToString } from '@/utils';
 
 const THUMBNAIL_URL =
   'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg';
@@ -45,33 +47,41 @@ const data = [
 ];
 
 const Home = () => {
+  const { data: popularBlogs } = useGetPopularBlogsQuery();
+
   return (
     <Box>
       <Box className="mb-20">
         <Grid item xs={12} md={12} sm={12} lg={12}>
-          <SectionTag sectionTagName="popular posts" />
+          <SectionTag sectionTagName="popular blogs" />
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12} lg={6}>
-            <BlogCard
-              position="above"
-              title="test"
-              time="test"
-              thumbnail={THUMBNAIL_URL}
-              shortDesc={shortDescSample}
-              quantityLike={10}
-            />
+            {popularBlogs && popularBlogs.getPopularBlogs.length >= 1 && (
+              <BlogCard
+                id={popularBlogs.getPopularBlogs[0].id}
+                position="above"
+                title={popularBlogs.getPopularBlogs[0].title}
+                time={formatDateToString(
+                  popularBlogs.getPopularBlogs[0].createdAt,
+                )}
+                thumbnail={popularBlogs.getPopularBlogs[0].thumbnail}
+                shortDesc={popularBlogs.getPopularBlogs[0].shortDesc}
+                quantityLike={popularBlogs.getPopularBlogs[0].like.length}
+              />
+            )}
           </Grid>
           <Grid container spacing={2} item xs={12} md={12} lg={6}>
-            {data.map((el) => (
-              <Grid item xs={6} md={6} lg={6} key={el.title}>
+            {popularBlogs?.getPopularBlogs.slice(1, 4).map((blog) => (
+              <Grid item xs={6} md={6} lg={6} key={blog.id}>
                 <BlogCard
+                  id={blog.id}
                   position="above"
-                  title={el.title}
-                  time={el.time}
-                  thumbnail={el.thumbnail}
-                  shortDesc={el.shortDesc}
-                  quantityLike={el.quantityLike}
+                  title={blog.title}
+                  time={formatDateToString(blog.createdAt)}
+                  thumbnail={blog.thumbnail}
+                  shortDesc={blog.shortDesc}
+                  quantityLike={blog.like.length}
                 />
               </Grid>
             ))}
