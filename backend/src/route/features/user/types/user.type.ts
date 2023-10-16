@@ -35,6 +35,9 @@ export class UserType {
   phoneNumber: string;
 
   @Field(() => String)
+  dayOfBirth: string;
+
+  @Field(() => String)
   desc: string;
 
   @Field(() => String)

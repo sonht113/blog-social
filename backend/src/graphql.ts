@@ -119,6 +119,7 @@ export interface UserType {
     email: string;
     avatar: string;
     phoneNumber: string;
+    dayOfBirth: string;
     desc: string;
     address: string;
 }
@@ -140,6 +141,7 @@ export interface UserDataResponse {
     email: string;
     avatar: string;
     phoneNumber: string;
+    dayOfBirth: string;
     desc: string;
     address: string;
 }
