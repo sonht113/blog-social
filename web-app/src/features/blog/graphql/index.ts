@@ -22,6 +22,52 @@ export const GET_BLOGS = gql`
   }
 `;
 
+export const GET_POPULAR_BLOGS = gql`
+  query {
+    getPopularBlogs {
+      id
+      title
+      category {
+        id
+        name
+        link
+      }
+      shortDesc
+      content
+      thumbnail
+      creator {
+        id
+        fullname
+        avatar
+      }
+      like
+    }
+  }
+`;
+
+export const GET_BLOG_DETAIL = gql`
+  query GetBlogById($id: String!) {
+    getBlogById(id: $id) {
+      id
+      title
+      category {
+        id
+        name
+        link
+      }
+      shortDesc
+      content
+      thumbnail
+      creator {
+        id
+        fullname
+        avatar
+      }
+      like
+    }
+  }
+`;
+
 export const CREATE_BLOG = gql`
   mutation CreateBlog($body: CreateBlogType!) {
     createBlog(body: $body) {
@@ -40,6 +86,19 @@ export const CREATE_BLOG = gql`
           name
           link
         }
+      }
+    }
+  }
+`;
+
+export const LIKE_BLOG = gql`
+  mutation LikeBlog($id: String!, $idUser: String!) {
+    likeBlog(id: $id, idUser: $idUser) {
+      status
+      data {
+        id
+        title
+        like
       }
     }
   }
