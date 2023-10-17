@@ -1,10 +1,9 @@
-import { Category } from '@/features/category';
 import { DataUser } from '@/features/user';
 
 export type DataBlog = {
   id: string;
   title: string;
-  category: Category;
+  category: number;
   shortDesc: string;
   content: string;
   thumbnail: string;
@@ -16,7 +15,7 @@ export type DataBlog = {
 
 export type InputBlog = Partial<
   Pick<DataBlog, 'title' | 'shortDesc' | 'content' | 'thumbnail'> & {
-    category: string;
+    category: number;
     creator: string;
   }
 >;
@@ -24,8 +23,7 @@ export type InputBlog = Partial<
 export type QueryOption = Partial<{
   page: number;
   limit: number;
-  category: string;
-  creator: string;
+  category: number;
 }>;
 
 export type ResPaginationBlogData = {
