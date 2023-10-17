@@ -97,6 +97,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "array"
+        },
+        "is_liked": {
+          "name": "is_liked",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "boolean"
         }
       },
       "name": "blog",

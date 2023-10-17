@@ -32,4 +32,8 @@ export class CreateBlogType extends Base<CreateBlogType> {
   @IsOptional()
   @Field(() => [String], { defaultValue: [], nullable: true })
   like: string[];
+
+  @IsOptional()
+  @Field(() => Boolean, { defaultValue: false })
+  isLiked: boolean;
 }

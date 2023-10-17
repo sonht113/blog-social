@@ -23,4 +23,7 @@ export class Blog extends Base<Blog> {
 
   @Property()
   like!: string[];
+
+  @Property()
+  isLiked!: boolean;
 }

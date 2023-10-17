@@ -24,4 +24,7 @@ export class BlogType extends Base<BlogType> {
 
   @Field(() => [String])
   like: string[];
+
+  @Field()
+  isLiked: boolean;
 }

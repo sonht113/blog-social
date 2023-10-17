@@ -33,7 +33,6 @@ export class BlogResolver {
   @Query(() => ResPaginationBlogType)
   getBlogs(@Args('query') query: QueryOptions, @Context() context) {
     const token = context.req.header('Authorization');
-    console.log(query);
     if (token) {
       const idUser = decode(token.substring(7)).sub.replace(
         process.env.SECRET_KEY,
@@ -68,8 +67,10 @@ export class BlogResolver {
   }
 
   @Mutation(() => ResponseMutationBlogType)
-  likeBlog(@Args('id') id: string, @Args('idUser') idUser: string) {
-    return this.blogService.likeBlog(id, idUser);
+  @UseGuards(JwtAuthGuard)
+  likeBlog(@Args('id') id: string, @Context() context) {
+    const userId = context.req.user.userId.replace(process.env.SECRET_KEY, '');
+    return this.blogService.likeBlog(id, userId);
   }
 
   @Mutation(() => ResponseMutationBlogType)

@@ -67,6 +67,7 @@ export interface CreateBlogType {
     thumbnail: string;
     creator: string;
     like?: Nullable<string[]>;
+    isLiked: boolean;
 }
 
 export interface UpdateBlogType {
@@ -79,6 +80,7 @@ export interface UpdateBlogType {
     content?: Nullable<string>;
     thumbnail?: Nullable<string>;
     like?: Nullable<string[]>;
+    isLiked?: Nullable<boolean>;
 }
 
 export interface CreateCommentType {
@@ -178,6 +180,7 @@ export interface BlogType {
     thumbnail: string;
     creator: UserType;
     like: string[];
+    isLiked: boolean;
 }
 
 export interface ResponseMutationBlogType {
@@ -237,7 +240,7 @@ export interface IMutation {
     deleteCategory(id: string): ResponseMutationType | Promise<ResponseMutationType>;
     createBlog(body: CreateBlogType): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
     updateBlog(id: string, body: UpdateBlogType): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
-    likeBlog(id: string, idUser: string): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
+    likeBlog(id: string): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
     deleteBlog(id: string): ResponseMutationBlogType | Promise<ResponseMutationBlogType>;
     createComment(body: CreateCommentType): ResponseMutationCommentType | Promise<ResponseMutationCommentType>;
     updateComment(id: string, body: UpdateCommentType): ResponseMutationCommentType | Promise<ResponseMutationCommentType>;

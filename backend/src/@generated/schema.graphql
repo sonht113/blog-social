@@ -74,6 +74,7 @@ type BlogType {
   thumbnail: String!
   creator: UserType!
   like: [String!]!
+  isLiked: Boolean!
 }
 
 type ResponseMutationBlogType {
@@ -153,7 +154,7 @@ type Mutation {
   deleteCategory(id: String!): ResponseMutationType!
   createBlog(body: CreateBlogType!): ResponseMutationBlogType!
   updateBlog(id: String!, body: UpdateBlogType!): ResponseMutationBlogType!
-  likeBlog(id: String!, idUser: String!): ResponseMutationBlogType!
+  likeBlog(id: String!): ResponseMutationBlogType!
   deleteBlog(id: String!): ResponseMutationBlogType!
   createComment(body: CreateCommentType!): ResponseMutationCommentType!
   updateComment(id: String!, body: UpdateCommentType!): ResponseMutationCommentType!
@@ -203,18 +204,20 @@ input CreateBlogType {
   thumbnail: String!
   creator: String!
   like: [String!] = []
+  isLiked: Boolean! = false
 }
 
 input UpdateBlogType {
-  id: ID = "b612d004-383a-46fb-85d6-1bc6f3fd223d"
-  createdAt: DateTime = "2023-10-17T12:36:12.380Z"
-  updatedAt: DateTime = "2023-10-17T12:36:12.380Z"
+  id: ID = "10cfce97-28d3-4ab3-837c-1da8447d0e74"
+  createdAt: DateTime = "2023-10-17T13:56:58.781Z"
+  updatedAt: DateTime = "2023-10-17T13:56:58.781Z"
   title: String
   category: Float
   shortDesc: String = ""
   content: String
   thumbnail: String
   like: [String!] = []
+  isLiked: Boolean = false
 }
 
 input CreateCommentType {
