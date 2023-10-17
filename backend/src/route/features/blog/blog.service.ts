@@ -23,7 +23,7 @@ export class BlogService {
     const take = limit || 10;
     const p = page || 1;
     const skip = p === 1 ? 0 : p * take;
-    if (checkValueEmpty(category)) {
+    if (category === 0) {
       delete q['category'];
     }
     if (checkValueEmpty(creator)) {
@@ -43,8 +43,8 @@ export class BlogService {
     };
   }
 
-  async getPopularBlogs(): Promise<Blog[]> {
-    const blogs = await this.blogRepository.findAll();
+  async getPopularBlogs(query: { category?: number }): Promise<Blog[]> {
+    const blogs = await this.blogRepository.find(query);
 
     const popularBlog = blogs
       .filter((blog) => blog.like.length > 3)

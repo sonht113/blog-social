@@ -9,9 +9,8 @@ export class CreateBlogType extends Base<CreateBlogType> {
   title: string;
 
   @IsNotEmpty()
-  @IsUUID(4)
   @Field()
-  category: string;
+  category: number;
 
   @IsOptional()
   @Field({ nullable: true, defaultValue: '' })

@@ -21,8 +21,11 @@ export interface OptionsQueryType {
 export interface QueryOptions {
     page: number;
     limit: number;
-    category: string;
-    creator: string;
+    category: number;
+}
+
+export interface QueryOptionsPopularBlog {
+    category?: Nullable<number>;
 }
 
 export interface CreateUserType {
@@ -58,7 +61,7 @@ export interface CreateCategoryType {
 
 export interface CreateBlogType {
     title: string;
-    category: string;
+    category: number;
     shortDesc?: Nullable<string>;
     content: string;
     thumbnail: string;
@@ -71,7 +74,7 @@ export interface UpdateBlogType {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     title?: Nullable<string>;
-    category?: Nullable<string>;
+    category?: Nullable<number>;
     shortDesc?: Nullable<string>;
     content?: Nullable<string>;
     thumbnail?: Nullable<string>;
@@ -169,7 +172,7 @@ export interface BlogType {
     createdAt: DateTime;
     updatedAt: DateTime;
     title: string;
-    category: CategoryType;
+    category: number;
     shortDesc: string;
     content: string;
     thumbnail: string;
@@ -220,7 +223,7 @@ export interface IQuery {
     getInfo(): UserDataResponse | Promise<UserDataResponse>;
     getCategories(): CategoryType[] | Promise<CategoryType[]>;
     getBlogs(query: QueryOptions): ResPaginationBlogType | Promise<ResPaginationBlogType>;
-    getPopularBlogs(): BlogType[] | Promise<BlogType[]>;
+    getPopularBlogs(query: QueryOptionsPopularBlog): BlogType[] | Promise<BlogType[]>;
     getBlogById(id: string): BlogType | Promise<BlogType>;
     getComments(idBlog: string): CommentType[] | Promise<CommentType[]>;
 }

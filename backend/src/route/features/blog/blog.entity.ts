@@ -7,7 +7,7 @@ export class Blog extends Base<Blog> {
   title!: string;
 
   @Property()
-  category!: string;
+  category!: number;
 
   @Property()
   shortDesc!: string;
