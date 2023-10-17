@@ -18,9 +18,10 @@ export const useGetBlogsQuery = (query: QueryOption) =>
     variables: { query: query },
   });
 
-export const useGetPopularBlogsQuery = () =>
+export const useGetPopularBlogsQuery = (query: Pick<QueryOption, 'category'>) =>
   useQuery<{ getPopularBlogs: DataBlog[] }, OperationVariables>(
     GET_POPULAR_BLOGS,
+    { variables: { query } },
   );
 
 export const useCreateBlogMutation = () =>

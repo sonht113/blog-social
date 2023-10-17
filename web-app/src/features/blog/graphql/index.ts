@@ -13,25 +13,19 @@ export const GET_BLOGS = gql`
         thumbnail
         content
         createdAt
-        category {
-          id
-          name
-        }
+        category
+        like
       }
     }
   }
 `;
 
 export const GET_POPULAR_BLOGS = gql`
-  query {
-    getPopularBlogs {
+  query GetPoppularBlogs($query: QueryOptionsPopularBlog!) {
+    getPopularBlogs(query: $query) {
       id
       title
-      category {
-        id
-        name
-        link
-      }
+      category
       shortDesc
       content
       thumbnail
@@ -50,11 +44,7 @@ export const GET_BLOG_DETAIL = gql`
     getBlogById(id: $id) {
       id
       title
-      category {
-        id
-        name
-        link
-      }
+      category
       shortDesc
       content
       thumbnail
@@ -81,11 +71,7 @@ export const CREATE_BLOG = gql`
           fullname
           avatar
         }
-        category {
-          id
-          name
-          link
-        }
+        category
       }
     }
   }
