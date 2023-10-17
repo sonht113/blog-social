@@ -2,52 +2,21 @@ import { Box, Grid } from '@mui/material';
 
 import { BlogCard } from '@/components';
 import { SectionTag } from '@/components';
-import { useGetPopularBlogsQuery } from '@/features/blog';
+import {
+  EnumCategory,
+  useGetBlogsQuery,
+  useGetPopularBlogsQuery,
+} from '@/features/blog';
 import { formatDateToString } from '@/utils';
 
-const THUMBNAIL_URL =
-  'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg';
-
-const shortDescSample =
-  'shortDekim cuong is a handsome boy, he is a student at donga useniversity, you can bla bla bla bla bla bla bla bla bla bl bla bl abl a scSample';
-
-const data = [
-  {
-    position: 'above',
-    title: 'test',
-    time: 'test',
-    thumbnail: THUMBNAIL_URL,
-    shortDesc: shortDescSample,
-    quantityLike: 10,
-  },
-  {
-    position: 'above',
-    title: 'test',
-    time: 'test',
-    thumbnail: THUMBNAIL_URL,
-    shortDesc: shortDescSample,
-    quantityLike: 10,
-  },
-  {
-    position: 'above',
-    title: 'test',
-    time: 'test',
-    thumbnail: THUMBNAIL_URL,
-    shortDesc: shortDescSample,
-    quantityLike: 10,
-  },
-  {
-    position: 'above',
-    title: 'test',
-    time: 'test',
-    thumbnail: THUMBNAIL_URL,
-    shortDesc: shortDescSample,
-    quantityLike: 10,
-  },
-];
-
 const Home = () => {
-  const { data: popularBlogs } = useGetPopularBlogsQuery();
+  const { data: popularBlogs } = useGetPopularBlogsQuery({});
+  const { data: blogsComputer } = useGetBlogsQuery({
+    category: EnumCategory['COMPUTER'],
+  });
+  const { data: blogsSocial } = useGetBlogsQuery({
+    category: EnumCategory['SOCIAL'],
+  });
 
   return (
     <Box>
@@ -94,15 +63,15 @@ const Home = () => {
             <SectionTag sectionTagName="computer" />
           </Grid>
           <Grid container gap={2}>
-            {data.map((el) => (
-              <Grid item xs={12} md={12} lg={12} key={el.title}>
+            {blogsComputer?.getBlogs.data.slice(0, 5).map((blog) => (
+              <Grid item xs={12} md={12} lg={12} key={blog.id}>
                 <BlogCard
                   position="horizontal"
-                  title={el.title}
-                  time={el.time}
-                  thumbnail={el.thumbnail}
-                  shortDesc={el.shortDesc}
-                  quantityLike={el.quantityLike}
+                  title={blog.title}
+                  time={formatDateToString(blog.createdAt)}
+                  thumbnail={blog.thumbnail}
+                  shortDesc={blog.shortDesc}
+                  quantityLike={blog.like.length}
                 />
               </Grid>
             ))}
@@ -113,15 +82,15 @@ const Home = () => {
             <SectionTag sectionTagName="Social" />
           </Grid>
           <Grid container gap={2}>
-            {data.map((el) => (
-              <Grid item xs={12} md={12} lg={12} key={el.title}>
+            {blogsSocial?.getBlogs.data.slice(0, 5).map((blog) => (
+              <Grid item xs={12} md={12} lg={12} key={blog.id}>
                 <BlogCard
                   position="horizontal"
-                  title={el.title}
-                  time={el.time}
-                  thumbnail={el.thumbnail}
-                  shortDesc={el.shortDesc}
-                  quantityLike={el.quantityLike}
+                  title={blog.title}
+                  time={formatDateToString(blog.createdAt)}
+                  thumbnail={blog.thumbnail}
+                  shortDesc={blog.shortDesc}
+                  quantityLike={blog.like.length}
                 />
               </Grid>
             ))}
