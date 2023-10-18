@@ -1,10 +1,13 @@
 import { FC } from 'react';
 
+import { BreadcrumbCustom } from '@/components';
+import { ListWrapper, USER_BREADCRUMBS } from '@/features/user';
+
 const Users: FC = () => {
   return (
-    <div>
-      <span>Users</span>
-    </div>
+    <BreadcrumbCustom routes={USER_BREADCRUMBS.default}>
+      <ListWrapper />
+    </BreadcrumbCustom>
   );
 };
 

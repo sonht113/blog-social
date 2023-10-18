@@ -16,7 +16,7 @@ const LayoutComponent = () => {
       <HeaderComponent />
       <Layout>
         <MenuComponent />
-        <Content className="px-4 py-20 flex flex-col">
+        <Content className="px-4 pt-5 flex flex-col">
           <ErrorBoundary fallbackRender={fallbackRender}>
             <Suspense
               fallback={
