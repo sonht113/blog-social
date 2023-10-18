@@ -33,7 +33,6 @@ export class UserResolver {
   @Query(() => UserDataResponse)
   @UseGuards(JwtAuthGuard)
   getInfo(@Context() context) {
-    console.log(context.req.user);
     return this.userService.getUserByUserName(context.req.user.username);
   }
 
