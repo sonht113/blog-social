@@ -6,7 +6,7 @@ import PrivateRoute from './private-router';
 import { LOGIN_PATH } from '@/data';
 import { routeList } from '@/data/constant/navs';
 import LayoutComponent from '@/layout';
-import { Login } from '@/pages';
+import Login from '@/pages/login';
 
 const NotFound = lazy(() => import('@/pages/not-found'));
 
