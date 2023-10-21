@@ -11,12 +11,14 @@ module.exports = {
     container: {
       center: true,
       padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
     },
-    extend: {
+    screens: {
+      tablet: '600px',
+      md: '900px',
+      lg: '1200px',
+      xl: '1536px',
     },
+    extend: {},
   },
   plugins: [require('tailwindcss-animate')],
 };
