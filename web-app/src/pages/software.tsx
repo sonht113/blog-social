@@ -1,89 +1,75 @@
-import { useState } from 'react';
+import { Grid } from '@mui/material';
 
-import FolderCopyIcon from '@mui/icons-material/FolderCopy';
-import ShareIcon from '@mui/icons-material/Share';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import { Box, Grid, Typography } from '@mui/material';
-
-import { CategoriesNav, SectionTag } from '@/components';
-import { EnumCategory, useGetBlogsQuery } from '@/features/blog';
-
-const computerDesc =
-  'Explore the Computer Universe at ByteBoosts! Dive into our comprehensive range of tech insights, reviews, and guides, all centered around the heart of computing. From powerful Desktop systems to sleek Laptops, crystal-clear Monitors, and on-the-go Portable PCs, we’re your go-to source for everything tech. Uncover the latest trends, expert advice, and in-depth analyses to enhance your computing journey.';
+import { BlogCard, CategoriesNav, SectionTag } from '@/components';
+import {
+  EnumCategory,
+  useGetBlogsQuery,
+  useGetPopularBlogsQuery,
+} from '@/features/blog';
+import { formatDateToString } from '@/utils';
 
 const Software = () => {
-  const { data: blogsSoftware } = useGetBlogsQuery({
+  const { data: popularBlogs } = useGetPopularBlogsQuery({
     category: EnumCategory['SOFTWARE'],
   });
 
-  const [liked, setLiked] = useState(false);
+  const { data: blogs } = useGetBlogsQuery({
+    category: EnumCategory['SOFTWARE'],
+  });
 
-  const handleLike = () => {
-    setLiked((prevState) => !prevState);
-  };
   return (
-    <Box className="mt-4">
-      <Grid container spacing={2}>
-        <Grid
-          item
-          xs={0}
-          sm={0}
-          md={0}
-          lg={2}
-          className="bg-black px-4 !mt-4 h-screen hidden py-4 lg:block"
-        >
-          <CategoriesNav />
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={10} className="p-4">
-          <Grid item lg={12} className="bg-slate-50 p-4">
-            <SectionTag sectionTagName="computer" />
-            <Typography className="text-black text-justify">
-              {computerDesc}
-            </Typography>
-          </Grid>
-          <Grid item lg={12} className="!mt-4">
-            {blogsSoftware?.getBlogs.data.map((el) => (
-              <Grid
-                item
-                lg={12}
-                key={el.id}
-                className="bg-slate-50 text-black p-4"
-              >
-                <Typography className="!text-3xl ">{el.shortDesc}</Typography>
-                <Typography className="!text-xs text-gray-500 !mb-4">
-                  {el.createdAt}
-                </Typography>
-                <img
-                  src={el.thumbnail}
-                  alt=""
-                  className="w-full !mb-4 object-cover"
+    <Grid container spacing={2} className="!mt-4">
+      <Grid
+        item
+        xs={0}
+        sm={0}
+        md={0}
+        lg={2}
+        className="bg-black hidden lg:block p-4"
+      >
+        <CategoriesNav />
+      </Grid>
+      <Grid item xs={12} sm={12} md={12} lg={10} className="pt-5 lg:!pt-0">
+        <Grid item container className="bg-slate-50 p-4 ">
+          <SectionTag sectionTagName="popular blog" />
+          <Grid item container lg={12} spacing={2}>
+            {popularBlogs?.getPopularBlogs.slice(0, 5).map((blog) => (
+              <Grid item xs={12} lg={4} key={blog.id}>
+                <BlogCard
+                  id={blog.id}
+                  position="above"
+                  title={blog.title}
+                  time={formatDateToString(blog.createdAt)}
+                  thumbnail={blog.thumbnail}
+                  shortDesc={blog.shortDesc}
+                  quantityLike={blog.like.length}
+                  isLiked={true}
                 />
-                <Typography className="!text-2xl !mb-4">
-                  {el.shortDesc}
-                </Typography>
-                <Box className="flex justify-between items-center ">
-                  <Box className="flex justify-between items-center gap-2 cursor-pointer">
-                    {liked ? (
-                      <ThumbUpIcon onClick={handleLike} />
-                    ) : (
-                      <ThumbUpOffAltIcon onClick={handleLike} />
-                    )}
-                    <Typography>0</Typography>
-                  </Box>
-                  <Box className="flex justify-between items-center gap-2 cursor-pointer">
-                    <FolderCopyIcon />
-                    <Typography>0</Typography>
-                  </Box>
-                  <ShareIcon className="cursor-pointer" />
-                </Box>
               </Grid>
             ))}
-            <Typography></Typography>
+          </Grid>
+        </Grid>
+        <Grid item container className="bg-slate-50 !mt-5 p-4">
+          <SectionTag sectionTagName="All blog" />
+          <Grid item container lg={12} spacing={2}>
+            {blogs?.getBlogs.data.map((blog) => (
+              <Grid item xs={12} lg={4} key={blog.id}>
+                <BlogCard
+                  id={blog.id}
+                  position="above"
+                  title={blog.title}
+                  time={formatDateToString(blog.createdAt)}
+                  thumbnail={blog.thumbnail}
+                  shortDesc={blog.shortDesc}
+                  quantityLike={blog.like.length}
+                  isLiked={true}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
   );
 };
 
