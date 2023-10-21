@@ -11,6 +11,7 @@ export * from './input-password';
 
 export * from './input-date-picker';
 export * from './blog-card/blog-card';
+export * from './categories-nav/categories-nav';
 
 const FormCKEditor = withLazy(() => import('./ckeditor/form-ckeditor'));
 const Upload = withLazy(() => import('./upload/upload'));
