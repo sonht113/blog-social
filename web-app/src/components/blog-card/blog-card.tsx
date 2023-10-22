@@ -1,10 +1,9 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ChatIcon from '@mui/icons-material/Chat';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import {
   Card,
   CardMedia,
@@ -13,10 +12,13 @@ import {
   CardActions,
   Button,
   Box,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { CommonButton } from '../common/button/common-button';
+import { useAuthStore } from '@/features/auth';
 
 type Props = {
   id?: string;
@@ -26,9 +28,10 @@ type Props = {
   title: string;
   shortDesc: string;
   time: string;
-  comments?: number;
+  like?: string[];
   quantityLike?: number;
   isLiked?: boolean;
+  onLike: () => void;
 };
 
 type CardActionProps = Partial<Pick<Props, 'className' | 'position' | 'id'>>;
@@ -40,15 +43,13 @@ export const BlogCard: FC<Props> = ({
   title,
   shortDesc,
   time,
-  comments = 0,
+  like,
   quantityLike = 0,
   isLiked = false,
+  onLike,
 }) => {
-  const [liked, setLiked] = useState(isLiked);
-
-  const handleLike = () => {
-    setLiked((prevState) => !prevState);
-  };
+  const token = useAuthStore((state) => state.token);
+  const user = useAuthStore((state) => state.user);
 
   const cardMediaStyle = useMemo(
     () => ({
@@ -58,7 +59,7 @@ export const BlogCard: FC<Props> = ({
       above: {
         height: 280,
       },
-      horizontal: { height: 150, width: 200 },
+      horizontal: { height: 150, width: 120 },
     }),
     [],
   );
@@ -66,22 +67,33 @@ export const BlogCard: FC<Props> = ({
   const cardInfo = useMemo(() => {
     const data = [
       {
+        id: '1',
         icon: <CalendarMonthIcon fontSize="small" />,
         title: time,
       },
       {
+        id: '2',
         icon: (
-          <Link to={'/blog/123'}>
-            <ChatIcon fontSize="small" />
+          <Link to={`/blog/${id}`}>
+            <Tooltip title="Comment">
+              <ChatIcon fontSize="small" />
+            </Tooltip>
           </Link>
         ),
-        title: comments,
       },
       {
-        icon: liked ? (
-          <ThumbUpIcon fontSize="small" onClick={handleLike} />
-        ) : (
-          <ThumbUpAltOutlinedIcon fontSize="small" onClick={handleLike} />
+        id: '3',
+        icon: (
+          <IconButton onClick={onLike}>
+            <ThumbUpIcon
+              fontSize="small"
+              color={
+                isLiked && like?.includes(user?.id as string) && token
+                  ? 'info'
+                  : 'action'
+              }
+            />
+          </IconButton>
         ),
         title: quantityLike,
       },
@@ -96,19 +108,29 @@ export const BlogCard: FC<Props> = ({
       >
         {data.map((d) => (
           <Box
-            key={d.title}
+            key={d.id}
             display="flex"
             alignItems="center"
             gap={1}
             className="cursor-pointer"
           >
             {d.icon}
-            <Typography>{d.title}</Typography>
+            {d.title && <Typography>{d.title}</Typography>}
           </Box>
         ))}
       </Box>
     );
-  }, [time, comments, liked, quantityLike, position]);
+  }, [
+    time,
+    id,
+    onLike,
+    isLiked,
+    like,
+    user?.id,
+    token,
+    quantityLike,
+    position,
+  ]);
 
   return (
     <Card
