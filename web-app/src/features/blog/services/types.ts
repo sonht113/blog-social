@@ -9,6 +9,16 @@ export type DataBlog = {
   thumbnail: string;
   creator: DataUser;
   like: string[];
+  isLiked: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type DataComment = {
+  id: string;
+  content: string;
+  blog: string;
+  creator: DataUser;
   createdAt: string;
   updatedAt: string;
 };
@@ -24,6 +34,7 @@ export type QueryOption = Partial<{
   page: number;
   limit: number;
   category: number;
+  creator: string;
 }>;
 
 export type ResPaginationBlogData = {
