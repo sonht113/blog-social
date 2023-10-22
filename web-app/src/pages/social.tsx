@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import toast from 'react-hot-toast';
 
 import { BlogCard } from '@/components';
 import { SectionTag } from '@/components';
@@ -7,17 +8,34 @@ import {
   EnumCategory,
   useGetBlogsQuery,
   useGetPopularBlogsQuery,
+  useLikeBlogMutation,
 } from '@/features/blog';
 import { formatDateToString } from '@/utils';
 
 const Social = () => {
-  const { data: popularBlogs } = useGetPopularBlogsQuery({
+  const { data: popularBlogs, refetch: refetchPopular } =
+    useGetPopularBlogsQuery({
+      category: EnumCategory['SOCIAL'],
+    });
+
+  const { data: blogs, refetch: refetchBlogs } = useGetBlogsQuery({
     category: EnumCategory['SOCIAL'],
   });
 
-  const { data: blogs } = useGetBlogsQuery({
-    category: EnumCategory['SOCIAL'],
-  });
+  const [likeBlog] = useLikeBlogMutation();
+
+  const handleLikeBlog = (id: string) => {
+    void likeBlog({
+      variables: { id },
+      onCompleted: () => {
+        void refetchPopular();
+        void refetchBlogs();
+      },
+      onError: () => {
+        toast.error('Something went wrong!');
+      },
+    });
+  };
 
   return (
     <Grid container spacing={2} className="!mt-4">
@@ -27,12 +45,12 @@ const Social = () => {
         sm={0}
         md={0}
         lg={2}
-        className="bg-black hidden lg:block p-4"
+        className="bg-slate-400 dark:bg-[#1E1E1E] hidden lg:block p-4"
       >
         <CategoriesNav />
       </Grid>
       <Grid item xs={12} sm={12} md={12} lg={10} className="pt-5 lg:!pt-0">
-        <Grid item container className="bg-slate-50 p-4 ">
+        <Grid item container className="bg-slate-200 dark:bg-[#1E1E1E] p-4 ">
           <SectionTag sectionTagName="popular blog" />
           <Grid item container lg={12} spacing={2}>
             {popularBlogs?.getPopularBlogs.slice(0, 5).map((blog) => (
@@ -45,13 +63,19 @@ const Social = () => {
                   thumbnail={blog.thumbnail}
                   shortDesc={blog.shortDesc}
                   quantityLike={blog.like.length}
-                  isLiked={true}
+                  like={blog.like}
+                  isLiked={blog.isLiked}
+                  onLike={() => handleLikeBlog(blog.id)}
                 />
               </Grid>
             ))}
           </Grid>
         </Grid>
-        <Grid item container className="bg-slate-50 !mt-5 p-4">
+        <Grid
+          item
+          container
+          className="bg-slate-200 dark:bg-[#1E1E1E] !mt-5 p-4"
+        >
           <SectionTag sectionTagName="All blog" />
           <Grid item container lg={12} spacing={2}>
             {blogs?.getBlogs.data.map((blog) => (
@@ -64,7 +88,9 @@ const Social = () => {
                   thumbnail={blog.thumbnail}
                   shortDesc={blog.shortDesc}
                   quantityLike={blog.like.length}
-                  isLiked={true}
+                  like={blog.like}
+                  isLiked={blog.isLiked}
+                  onLike={() => handleLikeBlog(blog.id)}
                 />
               </Grid>
             ))}
