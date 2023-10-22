@@ -12,7 +12,7 @@ import { useQueryInfoUser } from '@/hooks';
 const defaultValueForm = {
   title: '',
   shortDesc: '',
-  category: '',
+  category: 0,
   thumbnail: '',
   content: '',
 };
