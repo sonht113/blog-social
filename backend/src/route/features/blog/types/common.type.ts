@@ -29,6 +29,10 @@ export class QueryOptions {
   limit: number;
 
   @IsOptional()
+  @Field({ defaultValue: '' })
+  creator: string;
+
+  @IsOptional()
   @Field({ defaultValue: 0 })
   category: number;
 }

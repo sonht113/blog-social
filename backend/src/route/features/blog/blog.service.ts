@@ -99,8 +99,6 @@ export class BlogService {
 
     const isLiked = index > -1;
 
-    console.log(isLiked);
-
     if (isLiked) {
       blog.like.splice(index, 1);
       blog.isLiked = false;

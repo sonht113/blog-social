@@ -138,10 +138,12 @@ input OptionsQueryType {
 input QueryOptions {
   page: Float! = 1
   limit: Float! = 10
+  creator: String! = ""
   category: Float! = 0
 }
 
 input QueryOptionsPopularBlog {
+  creator: String = ""
   category: Float = 0
 }
 
@@ -208,9 +210,9 @@ input CreateBlogType {
 }
 
 input UpdateBlogType {
-  id: ID = "10cfce97-28d3-4ab3-837c-1da8447d0e74"
-  createdAt: DateTime = "2023-10-17T13:56:58.781Z"
-  updatedAt: DateTime = "2023-10-17T13:56:58.781Z"
+  id: ID = "7af7a5d7-af21-4331-87c8-f952a81120fa"
+  createdAt: DateTime = "2023-10-22T11:14:50.094Z"
+  updatedAt: DateTime = "2023-10-22T11:14:50.094Z"
   title: String
   category: Float
   shortDesc: String = ""
@@ -221,7 +223,7 @@ input UpdateBlogType {
 }
 
 input CreateCommentType {
-  creator: String!
+  creator: String
   content: String!
   blog: String!
   like: Float = 0

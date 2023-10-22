@@ -21,10 +21,12 @@ export interface OptionsQueryType {
 export interface QueryOptions {
     page: number;
     limit: number;
+    creator: string;
     category: number;
 }
 
 export interface QueryOptionsPopularBlog {
+    creator?: Nullable<string>;
     category?: Nullable<number>;
 }
 
@@ -84,7 +86,7 @@ export interface UpdateBlogType {
 }
 
 export interface CreateCommentType {
-    creator: string;
+    creator?: Nullable<string>;
     content: string;
     blog: string;
     like?: Nullable<number>;

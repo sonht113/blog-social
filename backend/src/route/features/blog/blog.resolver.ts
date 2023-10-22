@@ -7,7 +7,6 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { decode } from 'jsonwebtoken';
 import { BlogService } from './blog.service';
 import {
   QueryOptions,
@@ -31,17 +30,8 @@ export class BlogResolver {
   ) {}
 
   @Query(() => ResPaginationBlogType)
-  getBlogs(@Args('query') query: QueryOptions, @Context() context) {
-    const token = context.req.header('Authorization');
-    if (token) {
-      const idUser = decode(token.substring(7)).sub.replace(
-        process.env.SECRET_KEY,
-        '',
-      );
-      return this.blogService.getBlogs({ ...query, creator: idUser });
-    } else {
-      return this.blogService.getBlogs(query);
-    }
+  getBlogs(@Args('query') query: QueryOptions) {
+    return this.blogService.getBlogs(query);
   }
 
   @Query(() => [BlogType])
