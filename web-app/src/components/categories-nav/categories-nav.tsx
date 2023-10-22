@@ -10,7 +10,7 @@ export const CategoriesNav = () => {
   return (
     <Box>
       <SectionTag sectionTagName="categories" />
-      <Box className="flex flex-col text-gray-400 gap-10">
+      <Box className="flex flex-col text-white gap-10">
         {data?.getCategories.map((el) => (
           <Link
             to={el.link}
