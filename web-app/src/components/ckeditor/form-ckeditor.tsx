@@ -9,6 +9,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { FormControl, FormHelperText } from '@mui/material';
 import ClassicEditor from 'ckeditor5-luongthanhnhi-custom-build/build/ckeditor';
 import { Controller, ControllerProps } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import styled from 'styled-components';
 
 import EmbedProvider from './embed-provider';
@@ -20,18 +21,25 @@ type Props = Omit<ControllerProps, 'render'> & {
 };
 
 const FormCKEditor: FC<Props> = ({ isDisabled, error, name, ...props }) => {
-  const [uploadSingleFiles, { data }] = useUploadSingleFileMutation();
+  const [uploadSingleFiles] = useUploadSingleFileMutation();
 
   function uploadAdapter(loader: { file: Promise<Blob> }) {
     return {
       upload: async () => {
         const f = await loader.file;
         try {
+          let result;
           await uploadSingleFiles({
             variables: { file: f },
+            onCompleted: (data) => {
+              result = data.uploadSingleFiles.url;
+            },
+            onError: () => {
+              toast.error('Upload image failed!');
+            },
           });
           return {
-            default: data?.uploadSingleFiles.url,
+            default: result,
           };
         } catch (err) {
           return Promise.reject(err);
@@ -61,11 +69,10 @@ const FormCKEditor: FC<Props> = ({ isDisabled, error, name, ...props }) => {
       <Controller
         {...props}
         name={name}
-        render={({ field: { onChange, value = '' } }) => (
+        render={({ field }) => (
           <FormControl fullWidth>
             <CKEditorInsideForm
-              value={value}
-              onChange={onChange}
+              {...field}
               {...{
                 config,
                 isDisabled,
