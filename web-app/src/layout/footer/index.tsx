@@ -27,7 +27,7 @@ const FooterComponent = () => {
   const { data } = useQueryCategories();
   return (
     <Box className="w-full bg-gray-900">
-      <Box className="w-3/5 mx-auto py-10 ">
+      <Box className="w-full md:w-3/5 px-2 mx-auto py-10 ">
         <Grid container spacing={2} className="mb-12">
           <Grid item xs={6} md={6} lg={3}>
             <img src={bloglogo} alt="logo" className="w-28 mb-10" />
