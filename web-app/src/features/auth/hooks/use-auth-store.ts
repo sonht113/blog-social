@@ -2,12 +2,14 @@
 import { create } from 'zustand';
 
 import { ResponseLogin } from '../services/type';
+import { DataUser } from '@/features/user';
 
 type AuthStore = {
   token?: string;
   user?: ResponseLogin['user'];
   loginUser: (_: ResponseLogin) => void;
   logout: () => void;
+  setUser: (_: DataUser) => void;
 };
 
 const useAuthStore = create<AuthStore>()((set) => ({
@@ -22,6 +24,9 @@ const useAuthStore = create<AuthStore>()((set) => ({
   logout: () => {
     localStorage.removeItem('token');
     set({ token: undefined, user: undefined });
+  },
+  setUser: (data: DataUser) => {
+    set({ user: data });
   },
 }));
 
