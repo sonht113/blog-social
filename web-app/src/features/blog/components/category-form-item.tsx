@@ -1,17 +1,15 @@
 import React, { FC } from 'react';
 
-import { CircularProgress, InputLabel, MenuItem, Select } from '@mui/material';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 import { ControllerRenderProps } from 'react-hook-form';
 
-import { useQueryCategories } from '@/hooks';
+import { CATEGORY_OPTION } from '../constant';
 
 type Props = ControllerRenderProps & {
   error: boolean;
 };
 
 const CategoryFormItem: FC<Props> = ({ error = false, ...props }) => {
-  const { data, loading } = useQueryCategories();
-
   return (
     <React.Fragment>
       <InputLabel id="select-label">Select category</InputLabel>
@@ -22,14 +20,11 @@ const CategoryFormItem: FC<Props> = ({ error = false, ...props }) => {
         name="category"
         error={error}
       >
-        {loading && <CircularProgress size={20} />}
-        {data?.getCategories
-          .filter((item) => item.name !== 'Home')
-          .map((cate) => (
-            <MenuItem key={cate.id} value={cate.id}>
-              {cate.name}
-            </MenuItem>
-          ))}
+        {CATEGORY_OPTION.map((cate) => (
+          <MenuItem key={cate.label} value={cate.value}>
+            {cate.label}
+          </MenuItem>
+        ))}
       </Select>
     </React.Fragment>
   );
