@@ -1,4 +1,4 @@
-import React, { ElementType, Fragment } from 'react';
+import React, { ElementType, Fragment, useEffect } from 'react';
 
 import {
   Popover,
@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 import { PROFILE_LIST_ITEM } from '../constant';
-import { useLogoutMutation } from '@/features/auth';
+import { useAuthStore, useLogoutMutation } from '@/features/auth';
 import { useQueryInfoUser } from '@/hooks';
 
 const style = {
@@ -22,6 +22,7 @@ const style = {
 };
 
 const InfoProfile = () => {
+  const setUser = useAuthStore((state) => state.setUser);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
@@ -43,6 +44,12 @@ const InfoProfile = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
+  useEffect(() => {
+    if (data) {
+      setUser(data.getInfo);
+    }
+  }, [data, setUser]);
 
   return (
     <>
