@@ -16,5 +16,6 @@ export * from './categories-nav/categories-nav';
 const FormCKEditor = withLazy(() => import('./ckeditor/form-ckeditor'));
 const Upload = withLazy(() => import('./upload/upload'));
 const SectionTag = withLazy(() => import('./section-tag'));
+const EmptyData = withLazy(() => import('./common/empty-data/empty-data'));
 
-export { FormCKEditor, Upload, SectionTag };
+export { FormCKEditor, Upload, SectionTag, EmptyData };
