@@ -15,6 +15,7 @@ export const GET_BLOGS = gql`
         createdAt
         category
         like
+        isLiked
       }
     }
   }
@@ -35,6 +36,7 @@ export const GET_POPULAR_BLOGS = gql`
         avatar
       }
       like
+      isLiked
     }
   }
 `;
@@ -54,6 +56,8 @@ export const GET_BLOG_DETAIL = gql`
         avatar
       }
       like
+      isLiked
+      createdAt
     }
   }
 `;
@@ -78,13 +82,43 @@ export const CREATE_BLOG = gql`
 `;
 
 export const LIKE_BLOG = gql`
-  mutation LikeBlog($id: String!, $idUser: String!) {
-    likeBlog(id: $id, idUser: $idUser) {
+  mutation LikeBlog($id: String!) {
+    likeBlog(id: $id) {
       status
       data {
         id
         title
         like
+        isLiked
+      }
+    }
+  }
+`;
+
+export const GET_COMMENTS = gql`
+  query GetComments($idBlog: String!) {
+    getComments(idBlog: $idBlog) {
+      id
+      creator {
+        fullname
+        avatar
+      }
+      content
+      createdAt
+    }
+  }
+`;
+
+export const CREATE_COMMENT = gql`
+  mutation CreateComment($body: CreateCommentType!) {
+    createComment(body: $body) {
+      status
+      data {
+        id
+        creator {
+          avatar
+          fullname
+        }
       }
     }
   }
