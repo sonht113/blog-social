@@ -16,7 +16,10 @@ export class CommentService {
   ) {}
 
   async getComments(idBlog: string): Promise<Comment[]> {
-    return this.commentRepository.find({ blog: idBlog });
+    return (await this.commentRepository.find({ blog: idBlog })).sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
   }
 
   async createComment(
