@@ -21,10 +21,11 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 
-import { BlogCard } from '@/components';
-import { useGetBlogsQuery } from '@/features/blog';
+import { BlogCard, EmptyData } from '@/components';
+import { useGetBlogsQuery, useLikeBlogMutation } from '@/features/blog';
 import { useGetUserDetailQuery } from '@/features/user';
 
 const Demo = styled('div')(({ theme }) => ({
@@ -40,7 +41,21 @@ const UserProfile: FC = () => {
   const { id } = useParams();
 
   const { data: userData } = useGetUserDetailQuery(id!);
-  const { data: blogData } = useGetBlogsQuery({ creator: id! });
+  const { data: blogData, refetch } = useGetBlogsQuery({ creator: id! });
+
+  const [likeBlog] = useLikeBlogMutation();
+
+  const handleLikeBlog = (id: string) => {
+    void likeBlog({
+      variables: { id },
+      onCompleted: () => {
+        void refetch();
+      },
+      onError: () => {
+        toast.error('Something went wrong!');
+      },
+    });
+  };
 
   const infoUser = useMemo(
     () => [
@@ -108,14 +123,25 @@ const UserProfile: FC = () => {
           </TabPanel>
           <TabPanel value="2">
             <Grid container spacing={2}>
+              {!blogData ||
+                (blogData.getBlogs.data.length === 0 && (
+                  <Grid item xs={12}>
+                    <EmptyData />
+                  </Grid>
+                ))}
               {blogData?.getBlogs.data.map((blog) => (
                 <Grid key={blog.id} item xs={12} md={6} lg={4}>
                   <BlogCard
+                    id={blog.id}
                     position="vertical"
                     title={blog.title}
                     thumbnail={blog.thumbnail}
                     shortDesc={blog.shortDesc}
                     time={dayjs(blog.createdAt).format('DD/MM/YYYY')}
+                    isLiked={blog.isLiked}
+                    like={blog.like}
+                    quantityLike={blog.like.length}
+                    onLike={() => handleLikeBlog(blog.id)}
                   />
                 </Grid>
               ))}
