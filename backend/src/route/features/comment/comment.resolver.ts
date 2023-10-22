@@ -1,5 +1,6 @@
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
@@ -30,8 +31,11 @@ export class CommentResolver {
 
   @Mutation(() => ResponseMutationCommentType)
   @UseGuards(JwtAuthGuard)
-  createComment(@Args('body') body: CreateCommentType) {
-    return this.commentService.createComment(body);
+  createComment(@Args('body') body: CreateCommentType, @Context() context) {
+    return this.commentService.createComment({
+      ...body,
+      creator: context.req.user.userId.replace(process.env.SECRET_KEY, ''),
+    });
   }
 
   @Mutation(() => ResponseMutationCommentType)

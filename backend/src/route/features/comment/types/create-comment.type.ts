@@ -3,8 +3,8 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateCommentType {
-  @IsNotEmpty()
-  @Field()
+  @IsOptional()
+  @Field({ nullable: true })
   creator: string;
 
   @IsNotEmpty()
